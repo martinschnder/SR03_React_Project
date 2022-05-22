@@ -21,7 +21,7 @@ nav {
 .content {
     width: 100%;
     position: absolute;
-    height: ;
+    height: 80px;
     top: 80px;
     background-color: var(--primary-color);
     color: whitesmoke;
