@@ -1,226 +1,143 @@
-:root {
-    --primary-color: #337dff;
-    --secondary-color: #70a4ff;
-    --complimentary-color: #88BFB5;
-    --contrast-color: #F2E527;
-    --light-color: #D2A9D9;
-}
+@media (max-width: 800px) {
+    .aside {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+  }
+  
+  a {
+    text-decoration: none;
+  }
 
-nav {
-    position: fixed;
-    width: 250px;
-    /* left: 0; */
-    /* z-index: 50; */
-    /* display: flex; */
-    justify-content: space-around;
-    flex-direction: column;
+  .aside {
+    border-top-right-radius: 50;
+    flex: 20%;
+    background-color: var(--secondary-color);
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
     height: 100vh;
-    background-color: yellow;
-}
-
-.content {
+  }
+  
+  /* Grand boutton de navigation dans aside */
+  .fix-nav {
+    padding-bottom: 5px;
+    text-align: center;
+    font-size: 17px;
+    height: 100%;
+  }
+  
+  .fix-nav a:hover {
+    color: #0248c2;
+  }
+  
+  .fix-nav a {
+    color: whitesmoke;
+    text-decoration: none;
+    text-align: center;
+    font-size: 18px;
+  }
+  
+  .fix-nav:first-child {
+    border-bottom: 1px solid #efefef;
+  }
+  
+  /* Sous bouton de navigation dans aside*/
+  .nav {
     width: 100%;
-    position: absolute;
-    height: 80px;
-    top: 80px;
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5%;
+    z-index: 1;
+    border-top: 1px solid #efefef;
+  }
+  
+  .nav:last-child {
+    border-bottom: 1px solid #efefef;
+  }
+  
+  .nav:hover {
+    background-color: #0248c2;
+  }
+  
+  .nav a {
     color: whitesmoke;
-}
-
-.sidebar-header {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5%;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+    font-family: 'Varela Round Normal';
+  }
+  
+  .nav a:hover {
+    background-color: #0248c2;
+    width: 100%;
     color: whitesmoke;
-    position: absolute;
+  }
+  
+  /* Header du aside */
+  .aside-header {
+    color: whitesmoke;
+    position: relative;
     top: 0;
     height: 80px;
     width: 100%;
-    background-color: var(--secondary-color);
-}
-
-.sidebar-footer {
-    justify-content: center;
-    position: absolute;
-    bottom: 0;
-    height: 80px;
-    width: 100%;
-    background-color: var(--secondary-color);
-}
-
-.user_infos_container {
-    justify-content: space-around;
-}
-
-.sidebar-footer h4 {
-    color: whitesmoke;
-}
-
-.sidebar-footer h5 {
-    color: lightgray;
-}
-
-/* body {
-    font-family: 'Poppins', sans-serif;
-    background: #fafafa;
-}
-
-p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
-}
-
-a,
-a:hover,
-a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.navbar {
-    padding: 15px 10px;
-    background: #fff;
-    border: none;
-    border-radius: 0;
-    margin-bottom: 40px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-btn {
-    box-shadow: none;
-    outline: none !important;
-    border: none;
-}
-
-.line {
-    width: 100%;
-    height: 1px;
-    border-bottom: 1px dashed #ddd;
-    margin: 40px 0;
-}
-
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
-
-/* .wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-} */
-
-/* #sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    background: #7386D5;
-    color: #fff;
-    transition: all 0.3s;
-}
-
-#sidebar.active {
-    margin-left: -250px;
-}
-
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #6d7fcc;
-}
-
-#sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid #47748b;
-}
-
-#sidebar ul p {
-    color: #fff;
-    padding: 10px;
-}
-
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
-
-#sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
-}
-
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
-}
-
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
-
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #6d7fcc;
-}
-
-ul.CTAs {
-    padding: 20px;
-}
-
-ul.CTAs a {
     text-align: center;
-    font-size: 0.9em !important;
-    display: block;
-    border-radius: 5px;
-    margin-bottom: 5px;
-}
-
-a.download {
-    background: #fff;
-    color: #7386D5;
-}
-
-a.article,
-a.article:hover {
-    background: #6d7fcc !important;
-    color: #fff !important;
-}
- */
-
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
-
-/* #content {
+    padding: 10px;
+    border-bottom: 2px solid #efefef;
+    font-size: 20px;
+    font-weight: 800px;
+  }
+  
+  /* content du aside */
+  .content {
     width: 100%;
+    position: relative;
+    height: 80%;
+    padding-top: 5px;
+    background-color: var(--primary-color);
+    color: whitesmoke;
+  }
+  
+  /* footer du aside */
+  .sidebar-footer {
+    justify-content: center;
+    position: relative;
+    bottom: 0;
+    height: auto;
+    width: 100%;
+    text-decoration: none;
+  }
+  
+  /* user infos dans aside */
+  .user_infos_container {
     padding: 20px;
-    min-height: 100vh;
-    transition: all 0.3s;
-} */
-
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
-
-/* @media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-
-    #sidebar.active {
-        margin-left: 0;
-    }
-
-    #sidebarCollapse span {
-        display: none;
-    }
-} */
+    padding-top: 0;
+    background-image: url('../visuals/settings.png');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 90% 0;
+    text-decoration: none;
+  }
+  
+  .sidebar-footer h4 {
+    color: whitesmoke;
+    text-decoration: none;
+  }
+  
+  .sidebar-footer a {
+    text-decoration: none;
+  }
+  
+  .user_infos_container:hover {
+    background-image: url('../visuals/settings_hover.png');
+  }
+  
+  .sidebar-footer h5 {
+    color: lightgray;
+    text-decoration: none;
+  }

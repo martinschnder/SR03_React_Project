@@ -1,34 +1,39 @@
 import './styles/navbar.css';
-// import { ReactComponent as SettingsLogo } from '../settings.svg';
 
-function Navbar() {
+function Navbar({ nom, prenom, email, allchannels }) {
+    const channels = allchannels.map((name, i) => {
+        return (
+            <div key={i} class="nav">
+                <a href="#">{name}</a>
+            </div>
+        )
+    });
+
     return (
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>Matterleast</h3>
+        <aside class="aside">
+            <div class="aside-header">
+                <h3>MATTERLEAST</h3>
             </div>
             <div class="content">
-                <ul>
-                    <li>ALL CHANNELS
-                        <ul>
-                            <li>Channel 1</li>
-                            <li>Channel 2</li>
-                            <li>Channel 3</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-
-
-            <div class="sidebar-footer">
-                <div class='user_infos_container'>
-                    <h4>Martin Schneider</h4>
-                    <h5>martin.schneider2001@gmail.com</h5>
+                <div class="channel">
+                    <div class="fix-nav">
+                        <h4><a href="#">MES CHATS</a></h4>
+                    </div>
+                    <div class="fix-nav">
+                        <h4><a href="#">TOUS LES CHATS</a></h4>
+                    </div>
+                    {channels}
                 </div>
-                {/* <SettingsLogo /> */}
             </div>
-        </nav>
+            <a href="#">
+                <div class="sidebar-footer">
+                    <div class='user_infos_container'>
+                        <h4>{prenom + ' ' + nom}</h4>
+                        <h5>{email}</h5>
+                    </div>
+                </div>
+            </a>
+        </aside >
     );
 }
 

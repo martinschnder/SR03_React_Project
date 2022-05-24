@@ -1,0 +1,69 @@
+.table {
+    align-items: center;
+      width: 80%;
+    background-color: none;
+    margin: 10%;
+    margin-top: 5%;
+  }
+  
+  .table-header {
+      display:flex;
+      width:100%;
+      background:var(--primary-color);
+      padding:10px 0;
+    margin-bottom: 15px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  
+  .table-row {
+      display:flex;
+      width:100%;
+      padding:18px 5px;
+    color: var(--secondary-color)
+  }
+  
+  .table-row:nth-of-type(odd) {
+    background: var(--secondary-color);
+    color: whitesmoke
+  }
+  
+  .table-row:last-child {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  
+  .table-content {
+    border-radius: 20px;
+    box-shadow: 0px 5px 10px #969595;
+  }
+  
+  .table-data, .header__item {
+      flex: 1 1 20%;
+      text-align:center;
+  }
+  
+  .header__item h4 {
+    color : whitesmoke;
+    text-transform: uppercase;
+    font-size: 18px;
+    padding: 5px;
+  }
+  
+  .search {
+    position: relative;
+    top : 0;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 100%;
+    height: 50px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 20px;
+    vertical-align: baseline;
+    padding: 15px;
+    padding-left: 45px;
+    background-image: url('../visuals/loupe.png');
+    background-position: 12px 12px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+  }
