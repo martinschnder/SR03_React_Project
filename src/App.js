@@ -20,7 +20,8 @@ function App() {
             <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" allchannels={["channel 1", "channel 2 "]} />
             <main className="main">
                 <Header title="Tous les chats" />
-                <Chatlist mychannel={true} allchannels={["channel 1", "channel 2 "]} owner={["bobby", "moi"]} />
+                {/* <Chatlist mychannel={true} allchannels={["channel 1", "channel 2 "]} owner={["bobby", "moi"]} /> */}
+                <Chat />
             </main>
         </div>
     );

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import './styles/chat.css';
 
 function Chat() {
@@ -30,13 +31,74 @@ function Chat() {
         )
     };
 
+    // martin
+
+    useEffect(() => {
+        connect();
+        return disconnect();
+    });
+
+    var stompClient = null;
+
+    function setConnected(connected) {
+        document.getElementById('connect').disabled = connected;
+        document.getElementById('disconnect').disabled = !connected;
+        document.getElementById('conversationDiv').style.visibility
+            = connected ? 'visible' : 'hidden';
+        document.getElementById('response').innerHTML = '';
+    }
+
+    function connect() {
+        var socket = new SockJS('/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            setConnected(true);
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/messages', function (messageOutput) {
+                showMessageOutput(JSON.parse(messageOutput.body));
+            });
+        });
+    }
+
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+        console.log("Disconnected");
+    }
+
+    function sendMessage() {
+        // var from = document.getElementById('from').value;
+        var from = "martin";
+        var text = document.getElementById('text').value;
+        stompClient.send("/app/chat", {},
+            JSON.stringify({ 'from': from, 'text': text }));
+    }
+
+    function showMessageOutput(messageOutput) {
+        // var response = document.getElementById('response');
+        // var p = document.createElement('p');
+        // p.style.wordWrap = 'break-word';
+        // p.appendChild(document.createTextNode(messageOutput.from + ": "
+        //     + messageOutput.text + " (" + messageOutput.time + ")"));
+        // response.appendChild(p);
+        var messageContainer = document.getElementById("messages-container");
+        messageContainer.appendChild(message(messageOutput.from, messageOutput.text, messageOutput.time))
+    }
+
+    //
+
     return (
-        <div class="messages-container">
+        <div id="messages-container" class="messages-container">
             {message("paul", "salut bob", "11:00")}
             {message("martin", "salut paul", "11:05")}
-            <form method="get" id="userForm" class="form_undisplay" novalidate>
+            <div>
                 <input type="text" name="text" id="text" class="write-input" placeholder="Votre message..." />
-            </form>
+            </div>
+            {/* <form method="get" id="userForm" class="form_undisplay" novalidate>
+                <input type="text" name="text" id="text" class="write-input" placeholder="Votre message..." />
+            </form> */}
             <button class="write-button" id="write-button">Ecrire</button>
             <div class="button-container">
                 <button class="send-button" id="send-button">Envoyer</button>
