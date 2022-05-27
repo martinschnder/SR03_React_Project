@@ -5,13 +5,18 @@ import deleteimage from './visuals/delete.png';
 import deleteimage_white from './visuals/delete_white.png';
 import see from './visuals/see.png';
 import see_white from './visuals/see_white.png';
+import { useEffect, useState } from "react";
+import APIService from "../utils/APIService";
 
-function Chatlist({ mychannel, allchannels, owner }) {
-    const channels = mychannel ?
-        allchannels.map((name, i) => {
+function Chatlist({ mychannel, owner }) {
+    const [allchannels, setAllchannels] = useState([]);
+
+    const channels =
+        // mychannel ?
+        allchannels.map((channel, i) => {
             return (
                 <div key={i} class="table-row">
-                    <div class="table-data">{name}</div>
+                    <div class="table-data">{channel.title}</div>
                     <div class="table-data modifier">
                         <a href="#">
                             <img width="20" height="20" src={i % 2 == 0 ? edit_white : edit} />
@@ -29,19 +34,26 @@ function Chatlist({ mychannel, allchannels, owner }) {
                     </div>
                 </div>
             )
-        }) : allchannels.map((name, i) => {
-            return (
-                <div key={i} class="table-row">
-                    <div class="table-data">{name}</div>
-                    <div class="table-data">{owner[i]}</div>
-                    <div class="table-data voir">
-                        <a href="#">
-                            <img width="20" height="20" src={i % 2 == 0 ? see_white : see} />
-                        </a>
-                    </div>
-                </div>
-            )
         });
+    // }) : allchannels.map((name, i) => {
+    //     return (
+    //         <div key={i} class="table-row">
+    //             <div class="table-data">{name}</div>
+    //             <div class="table-data">{owner[i]}</div>
+    //             <div class="table-data voir">
+    //                 <a href="#">
+    //                     <img width="20" height="20" src={i % 2 == 0 ? see_white : see} />
+    //                 </a>
+    //             </div>
+    //         </div>
+    //     )
+    // });
+
+    useEffect(() => {
+        APIService.getAllChannels().then((data) => {
+            setAllchannels(data);
+        });
+    }, []);
 
     return (
         <div class="table">

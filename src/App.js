@@ -4,7 +4,8 @@ import Navbar from './components/NavBar';
 import Header from './components/Header';
 import Chat from './components/Chat';
 import Chatlist from './components/ChatList';
-import { Children, useEffect } from 'react';
+import AddChat from './components/AddChat';
+import { useEffect } from 'react';
 
 function App() {
     useEffect(() => {
@@ -15,12 +16,14 @@ function App() {
         document.body.style.margin = 0;
     }, []);
 
+
     return (
         <div className="flex-container">
             <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" allchannels={["channel 1", "channel 2 "]} />
             <main className="main">
                 <Header title="Tous les chats" />
-                <Chatlist mychannel={true} allchannels={["channel 1", "channel 2 "]} owner={["bobby", "moi"]} />
+                {/* <Chatlist mychannel={true} owner={["bobby", "moi"]} /> */}
+                <AddChat></AddChat>
             </main>
         </div>
     );
