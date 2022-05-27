@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import "../utils/stockjs"
 import './styles/chat.css';
 
 function Chat() {
@@ -90,6 +91,7 @@ function Chat() {
     //
 
     return (
+
         <div id="messages-container" class="messages-container">
             {message("paul", "salut bob", "11:00")}
             {message("martin", "salut paul", "11:05")}
