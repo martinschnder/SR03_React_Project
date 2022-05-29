@@ -7,6 +7,7 @@ import see from './visuals/see.png';
 import see_white from './visuals/see_white.png';
 import { useEffect, useState } from "react";
 import APIService from "../utils/APIService";
+import { Link } from "react-router-dom";
 
 function Chatlist({ mychannel }) {
     const [allchannels, setAllchannels] = useState([]);
@@ -40,9 +41,9 @@ function Chatlist({ mychannel }) {
                     <div key={i} class="table-row">
                         <div class="table-data">{channel.title}</div>
                         <div class="table-data modifier">
-                            <a href="#">
+                            <Link to="/modifychannel" state={{ channel: channel.id, title: channel.title, desc: channel.description }}>
                                 <img width="20" height="20" src={i % 2 == 0 ? edit_white : edit} />
-                            </a>
+                            </Link>
                         </div>
                         <div class="table-data supprimer">
                             <img onClick={() => deleteChannel(channel.id)} width="20" height="20" src={i % 2 == 0 ? deleteimage_white : deleteimage} />

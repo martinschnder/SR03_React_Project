@@ -9,6 +9,7 @@ import MyChat from './components/MyChat';
 import Home from './components/Home';
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import ModifyChat from './components/ModifyChat';
 
 function App() {
     useEffect(() => {
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/addchannel" element={<AddChat />} />
                     <Route path="/mychannels" element={<MyChat />} />
+                    <Route path="/modifychannel" element={<ModifyChat />} />
                 </Routes>
             </div>
         </BrowserRouter>
