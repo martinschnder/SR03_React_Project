@@ -1,4 +1,5 @@
 import './styles/navbar.css';
+import { NavLink } from "react-router-dom"
 
 function Navbar({ nom, prenom, email, allchannels }) {
     const channels = allchannels.map((name, i) => {
@@ -17,10 +18,13 @@ function Navbar({ nom, prenom, email, allchannels }) {
             <div class="content">
                 <div class="channel">
                     <div class="fix-nav">
-                        <h4><a href="#">MES CHATS</a></h4>
+                        <h4><NavLink to="/mychannels">MES CHATS</NavLink></h4>
                     </div>
                     <div class="fix-nav">
-                        <h4><a href="#">TOUS LES CHATS</a></h4>
+                        <h4><NavLink to="/addchannel">AJOUTER UN CHAT</NavLink></h4>
+                    </div>
+                    <div class="fix-nav">
+                        <h4><NavLink to="/">TOUS LES CHATS</NavLink></h4>
                     </div>
                     {channels}
                 </div>

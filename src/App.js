@@ -5,7 +5,10 @@ import Header from './components/Header';
 import Chat from './components/Chat';
 import Chatlist from './components/ChatList';
 import AddChat from './components/AddChat';
+import MyChat from './components/MyChat';
+import Home from './components/Home';
 import { useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 
 function App() {
     useEffect(() => {
@@ -18,15 +21,16 @@ function App() {
 
 
     return (
-        <div className="flex-container">
-            <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" allchannels={["channel 1", "channel 2 "]} />
-            <main className="main">
-                <Header title="Tous les chats" />
-                {/* <Chatlist mychannel={true} owner={["bobby", "moi"]} /> */}
-                {/* <AddChat></AddChat> */}
-                <Chat></Chat>
-            </main>
-        </div>
+        <BrowserRouter>
+            <div className="flex-container">
+                <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" allchannels={["channel 1", "channel 2 "]} />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/addchannel" element={<AddChat />} />
+                    <Route path="/mychannels" element={<MyChat />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
     );
 }
 

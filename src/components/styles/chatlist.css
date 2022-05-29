@@ -49,6 +49,10 @@
     font-size: 18px;
     padding: 5px;
   }
+
+  img:hover {
+    cursor: pointer;
+  }
   
   .search {
     position: relative;

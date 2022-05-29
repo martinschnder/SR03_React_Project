@@ -32,8 +32,8 @@
 .flex-container {  
   display: flex;
   flex-direction: row;
-  min-height: 100%;
-  max-height: auto;
+  min-height: 100vh;
+  /* max-height: 100vh; */
 }
 
 .main {
@@ -45,6 +45,6 @@
 @media (max-width: 800px) {
   .flex-container{
     flex-direction: column;
-    min-height: auto;
+    /* min-height: 100vh; */
   }
 }
