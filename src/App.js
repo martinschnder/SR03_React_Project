@@ -24,11 +24,12 @@ function App() {
         <BrowserRouter>
             <div className="flex-container">
                 <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" allchannels={["channel 1", "channel 2 "]} />
-                <Routes>
+                {/* <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/addchannel" element={<AddChat />} />
                     <Route path="/mychannels" element={<MyChat />} />
-                </Routes>
+                </Routes> */}
+                <Chat channel="channel2"></Chat>
             </div>
         </BrowserRouter>
     );

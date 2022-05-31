@@ -1,71 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { over } from 'stompjs'
 import SockJS from 'sockjs-client'
 import './styles/chat.css';
+import Header from './Header';
 
-function Chat() {
-    var stompClient = null;
-    const setConnected = (connected) => {
-        document.getElementById('connect').disabled = connected;
-        document.getElementById('disconnect').disabled = !connected;
-        document.getElementById('conversationDiv').style.visibility
-            = connected ? 'visible' : 'hidden';
-        document.getElementById('response').innerHTML = '';
-    }
 
-    const connect = () => {
-        var socket = new SockJS('/chat');
-        stompClient = over(socket);
-        stompClient.connect({}, function (frame) {
-            setConnected(true);
-            console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/messages', function (messageOutput) {
-                showMessageOutput(JSON.parse(messageOutput.body));
-            });
-        });
-    }
+function Chat({ channel }) {
 
-    const disconnect = () => {
-        if (stompClient != null) {
-            stompClient.disconnect();
-        }
-        setConnected(false);
-        console.log("Disconnected");
-    }
-
-    const sendMessage = () => {
-        var from = document.getElementById('from').value;
-        var text = document.getElementById('text').value;
-        stompClient.send("/app/chat", {},
-            JSON.stringify({ 'from': from, 'text': text }));
-    }
-
-    const showMessageOutput = (messageOutput) => {
-        var response = document.getElementById('response');
-        var p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
-        p.appendChild(document.createTextNode(messageOutput.from + ": "
-            + messageOutput.text + " (" + messageOutput.time + ")"));
-        response.appendChild(p);
-    }
-    // const writeButton = document.getElementById('write-button');
-    // writeButton.addEventListener('click', function (event) {
-    //     const textInput = document.getElementById("text");
-    //     const buttonDiv = document.getElementsByClassName("button-container")[0];
-    //     writeButton.style.display = "none";
-    //     textInput.style.display = "block";
-    //     buttonDiv.style.display = "block";
-    // })
-
-    // const closeButton = document.getElementById('close-button');
-    // closeButton.addEventListener('click', function (event) {
-    //     const writeButton = document.getElementById('write-button');
-    //     const textInput = document.getElementById("text");
-    //     const buttonDiv = document.getElementsByClassName("button-container")[0];
-    //     textInput.style.display = "none";
-    //     buttonDiv.style.display = "none";
-    //     writeButton.style.display = "block";
-    // })
+    const [messages, setMessages] = useState([]);
 
     // const message = (name, content, time) => {
     //     return (
@@ -77,99 +19,98 @@ function Chat() {
     //     )
     // };
 
-    // // martin
+    useEffect(() => {
+        connect();
 
-    // useEffect(() => {
-    //     connect();
-    //     return disconnect();
-    // });
+        const writeButton = document.getElementById('write-button');
+        writeButton.addEventListener('click', function (event) {
+            const textInput = document.getElementById("text");
+            const buttonDiv = document.getElementsByClassName("button-container")[0];
+            writeButton.style.display = "none";
+            textInput.style.display = "block";
+            buttonDiv.style.display = "block";
+        })
 
-    // var stompClient = null;
+        const closeButton = document.getElementById('close-button');
+        closeButton.addEventListener('click', function (event) {
+            const writeButton = document.getElementById('write-button');
+            const textInput = document.getElementById("text");
+            const buttonDiv = document.getElementsByClassName("button-container")[0];
+            textInput.style.display = "none";
+            buttonDiv.style.display = "none";
+            writeButton.style.display = "block";
+        })
+    });
 
-    // function setConnected(connected) {
-    //     document.getElementById('connect').disabled = connected;
-    //     document.getElementById('disconnect').disabled = !connected;
-    //     document.getElementById('conversationDiv').style.visibility
-    //         = connected ? 'visible' : 'hidden';
-    //     document.getElementById('response').innerHTML = '';
-    // }
+    var stompClient = null;
 
-    // function connect() {
-    //     var socket = new SockJS('/chat');
-    //     stompClient = over(socket);
-    //     stompClient.connect({}, function (frame) {
-    //         setConnected(true);
-    //         console.log('Connected: ' + frame);
-    //         stompClient.subscribe('/topic/messages', function (messageOutput) {
-    //             showMessageOutput(JSON.parse(messageOutput.body));
-    //         });
-    //     });
-    // }
+    function connect() {
+        var socket = new SockJS('http://localhost:8080/chat');
+        stompClient = over(socket);
+        stompClient.connect({}, function (frame) {
+            // setConnected(true);
+            console.log('Connected: ' + frame);
+            stompClient.subscribe(`/topic/messages/${channel}`, function (messageOutput) {
+                showMessageOutput(JSON.parse(messageOutput.body));
+            });
+        });
+    }
 
-    // function disconnect() {
-    //     if (stompClient != null) {
-    //         stompClient.disconnect();
-    //     }
-    //     setConnected(false);
-    //     console.log("Disconnected");
-    // }
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        // setConnected(false);
+        console.log("Disconnected");
+    }
 
-    // function sendMessage() {
-    //     // var from = document.getElementById('from').value;
-    //     var from = "martin";
-    //     var text = document.getElementById('text').value;
-    //     stompClient.send("/app/chat", {},
-    //         JSON.stringify({ 'from': from, 'text': text }));
-    // }
+    function sendMessage() {
+        var from = "martin";
+        var text = document.getElementById('text').value;
+        stompClient.send(`/app/chat/${channel}`, {},
+            JSON.stringify({ 'from': from, 'text': text }));
+    }
 
-    // function showMessageOutput(messageOutput) {
-    //     // var response = document.getElementById('response');
-    //     // var p = document.createElement('p');
-    //     // p.style.wordWrap = 'break-word';
-    //     // p.appendChild(document.createTextNode(messageOutput.from + ": "
-    //     //     + messageOutput.text + " (" + messageOutput.time + ")"));
-    //     // response.appendChild(p);
-    //     var messageContainer = document.getElementById("messages-container");
-    //     messageContainer.appendChild(message(messageOutput.from, messageOutput.text, messageOutput.time))
-    // }
-
-    // //
+    function showMessageOutput(messageOutput) {
+        console.log(messageOutput);
+        setMessages([...messages, messageOutput]);
+    }
 
     return (
-        <div>
+        <main className="main">
+            <Header title={channel} />
+            <div id="messages-container" class="messages-container">
+                <ul className="chat" id="chatList">
+                    {messages.map(data => (
+                        <div>
+                            {"martin" === data.from ? (
+                                <li className="self">
+                                    <div className="msg">
+                                        <p>{data.from}</p>
+                                        <div className="message">{data.text}</div>
+                                    </div>
+                                </li>
+                            ) : (
+                                <li className="other">
+                                    <div className="msg">
+                                        <p>{data.from}</p>
+                                        <div className="message"> {data.text} </div>
+                                    </div>
+                                </li>
+                            )}
+                        </div>
+                    ))}
+                </ul>
+            </div>
             <div>
-                <input type="text" id="from" placeholder="Choose a nickname" />
+                <input type="text" name="text" id="text" class="write-input" placeholder="Votre message..." />
             </div>
-            <br />
-            <div>
-                <button id="connect" onClick={connect}>Connect</button>
-                <button id="disconnect" disabled="disabled" onClick={disconnect}>
-                    Disconnect
-                </button>
+            <button class="write-button" id="write-button">Ecrire</button>
+            <div class="button-container">
+                <button class="send-button" id="send-button" onClick={sendMessage}>Envoyer</button>
+                <button class="close-button" id="close-button">Fermer</button>
             </div>
-            <br />
-            <div id="conversationDiv">
-                <input type="text" id="text" placeholder="Write a message..." />
-                <button id="sendMessage" onClick={sendMessage}>Send</button>
-                <p id="response"></p>
-            </div>
-        </div>
-
-        // <div id="messages-container" class="messages-container">
-        //     {message("paul", "salut bob", "11:00")}
-        //     {message("martin", "salut paul", "11:05")}
-        //     <div>
-        //         <input type="text" name="text" id="text" class="write-input" placeholder="Votre message..." />
-        //     </div>
-        //     {/* <form method="get" id="userForm" class="form_undisplay" novalidate>
-        //         <input type="text" name="text" id="text" class="write-input" placeholder="Votre message..." />
-        //     </form> */}
-        //     {/* <button class="write-button" id="write-button">Ecrire</button>
-        //     <div class="button-container">
-        //         <button class="send-button" id="send-button">Envoyer</button>
-        //         <button class="close-button" id="close-button">Fermer</button>
-        //     </div> */}
-        // </div>
+        </main>
     );
 }
 

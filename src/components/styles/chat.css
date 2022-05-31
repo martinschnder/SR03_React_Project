@@ -1,4 +1,4 @@
-.container {
+/* .container {
   background-color: var(--secondary-color);
   border-radius: 5px;
   padding: 15px;
@@ -20,96 +20,153 @@
 
 .container:nth-of-type(odd) {
   background-color: var(--primary-color);
-}
+} */
 
 .messages-container {
-  margin-top: 2%;
-  margin-left: 5%;
-  margin-right: 5%;
+    width: 80%;
+    height: 50%;
+    background-color: lightgrey;
+    border-width: 2px;
+    margin-top: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+    justify-content: flex-end;
+    border: 1px solid #0248c2;
+    border-radius: 5px;
 }
 
 .time {
-  float: right;
-  color: whitesmoke;
+    float: right;
+    color: whitesmoke;
 }
 
 .write-button {
-  border : 0;
-  background-color: #0248c2;
-  float: right;
-  color: whitesmoke;
-  padding: 16px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 2px;
-  margin-top: 5%;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  border-radius: 5px;
+    border: 0;
+    background-color: #0248c2;
+    color: whitesmoke;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    margin-top: 5%;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .write-button:hover {
-  background-color: var(--secondary-color);
-  color: whitesmoke;
+    background-color: var(--secondary-color);
+    color: whitesmoke;
 }
 
 .send-button {
-  border: 0;
-  background-color: var(--primary-color);
-  float: right;
-  color: whitesmoke;
-  padding: 16px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 10px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  border-radius: 5px;
+    border: 0;
+    background-color: var(--primary-color);
+    float: right;
+    color: whitesmoke;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 10px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .send-button:hover {
-  background-color: #0248c2;
+    background-color: #0248c2;
 }
 
 .close-button {
-  border: 0;
-  background-color: var(--secondary-color);
-  float: right;
-  color: whitesmoke;
-  padding: 16px 32px;
-  text-align: center;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-  border-radius: 5px;
+    border: 0;
+    background-color: var(--secondary-color);
+    float: right;
+    color: whitesmoke;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .close-button:hover {
-  background-color: #0248c2;
+    background-color: #0248c2;
 }
 
-.write-input{
-  margin-top: 5%;
-  display: none;
-  width: 100%;
-  height: 50px;
-  border: 2px solid var(--secondary-color);
-  border-radius: 5px;
-  vertical-align: baseline;
-  padding: 15px;
+.write-input {
+    margin-top: 5%;
+    display: none;
+    width: 80%;
+    height: 50px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 5px;
+    vertical-align: baseline;
+    padding: 15px;
 }
 
 .button-container {
-  width: fit-content;
-  height: fit-content;
-  position: relative;
-  top: 10px;
-  display: none;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+    top: 10px;
+    display: none;
 }
 
 @media (max-width: 800px) {
-  .container {
-    margin : 5%;
-  }
+    .container {
+        margin: 5%;
+    }
+}
+
+.chat {
+    list-style: none;
+    background: none;
+    margin: 0;
+    padding: 0 0 50px 0;
+    margin-top: 60px;
+    margin-bottom: 10px;
+    max-height: 400px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    border-width: 3px;
+    border-color: black;
+}
+
+.chat li {
+    padding: 0.5rem;
+    overflow: hidden;
+    display: flex;
+}
+
+.msg {
+    background: white;
+    min-width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
+}
+
+.msg p {
+    font-size: 0.8rem;
+    margin: 0 0 0.2rem 0;
+    color: rgb(81, 84, 255);
+}
+
+.self {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.self .msg {
+    order: 1;
+    border-bottom-right-radius: 0px;
+    box-shadow: 1px 2px 0px #d4d4d4;
+}
+
+.other .msg {
+    order: 1;
+    border-top-left-radius: 0px;
+    box-shadow: -1px 2px 0px #d4d4d4;
 }
