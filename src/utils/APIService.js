@@ -1,5 +1,3 @@
-const REST_API = 'http://localhost:8080';
-
 class APIService {
     getAllChannels(id) {
         return fetch('http://localhost:8080/allchannels/' + id)

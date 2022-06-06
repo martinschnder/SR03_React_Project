@@ -1,7 +1,8 @@
 import './styles/navbar.css';
 import { NavLink } from "react-router-dom"
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../utils/AuthContext';
 import APIService from "../utils/APIService";
 import settings from './visuals/settings.png';
 import deconnexion from './visuals/deconnexion.png';
@@ -11,6 +12,9 @@ function Navbar() {
     const [nom, setNom] = useState();
     const [prenom, setPrenom] = useState();
     const [email, setEmail] = useState();
+    const [id, setId] = useContext(AuthContext);
+    const [sign, setSign] = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const channels = allchannels.map((channel, i) => {
         return (
@@ -21,6 +25,13 @@ function Navbar() {
             </div>
         )
     });
+
+    const disconnect = () => {
+        setSign(false);
+        setId(0);
+        navigate('/login');
+    };
+
     useEffect(() => {
         APIService.getAllChannels(1).then((data) => {
             setAllchannels(data)
@@ -57,8 +68,7 @@ function Navbar() {
                     <h5>{email}</h5>
                 </div>
                 <NavLink to="/modifyuser"><img width="20" height="20" src={settings} /></NavLink>
-                <NavLink to="/"><img width="20" height="20" src={deconnexion} /></NavLink>
-
+                <a><img onClick={() => disconnect()} width="20" height="20" src={deconnexion} /></a>
             </div>
         </aside >
     );

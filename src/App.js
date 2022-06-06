@@ -1,18 +1,20 @@
 import './App.css';
-import Login from './components/Login';
-import Navbar from './components/NavBar';
-import Header from './components/Header';
 import Chat from './components/Chat';
-import Chatlist from './components/ChatList';
 import AddChat from './components/AddChat';
 import MyChat from './components/MyChat';
 import Home from './components/Home';
-import { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { useEffect, useState } from 'react';
+import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom"
 import ModifyChat from './components/ModifyChat';
 import ModifyUser from './components/ModifyUser';
+import { AuthContext } from './utils/AuthContext';
+import Login from './components/Login';
+import Navbar from './components/NavBar'
 
 function App() {
+    const [sign, setSign] = useState(false);
+    const [id, setId] = useState(0);
+
     useEffect(() => {
         document.body.style.backgroundColor = "#efefef";
         document.body.style.height = "100vh";
@@ -23,19 +25,22 @@ function App() {
 
 
     return (
-        <BrowserRouter>
-            <div className="flex-container">
-                <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/addchannel" element={<AddChat />} />
-                    <Route path="/mychannels" element={<MyChat />} />
-                    <Route path="/modifychannel" element={<ModifyChat />} />
-                    <Route path="/seechannel" element={<Chat />} />
-                    <Route path="/modifyuser" element={<ModifyUser />} />
-                </Routes>
-            </div>
-        </BrowserRouter>
+        <AuthContext.Provider value={[sign, setSign, id, setId]}>
+            <BrowserRouter>
+                <div className="flex-container">
+                    {sign ? <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" /> : null}
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/" element={sign ? <Home /> : <Navigate to="/login" />} />
+                        <Route path="/addchannel" element={sign ? <AddChat /> : <Navigate to="/login" />} />
+                        <Route path="/mychannels" element={sign ? <MyChat /> : <Navigate to="/login" />} />
+                        <Route path="/modifychannel" element={sign ? <ModifyChat /> : <Navigate to="/login" />} />
+                        <Route path="/seechannel" element={sign ? <Chat /> : <Navigate to="/login" />} />
+                        <Route path="/modifyuser" element={sign ? <ModifyUser /> : <Navigate to="/login" />} />
+                    </Routes>
+                </div>
+            </BrowserRouter>
+        </AuthContext.Provider>
     );
 }
 
