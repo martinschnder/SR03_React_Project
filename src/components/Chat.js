@@ -23,8 +23,6 @@ function Chat() {
     // };
 
     useEffect(() => {
-        connect();
-
         const writeButton = document.getElementById('write-button');
         writeButton.addEventListener('click', function (event) {
             const textInput = document.getElementById("text");
@@ -43,6 +41,8 @@ function Chat() {
             buttonDiv.style.display = "none";
             writeButton.style.display = "block";
         })
+        connect();
+
     });
 
     var stompClient = null;
@@ -80,7 +80,7 @@ function Chat() {
 
     return (
         <main className="main">
-            <Header title={location.state.title} />
+            <Header title={"Salon du chat : " + location.state.title} />
             <div id="messages-container" className="messages-container">
                 <ul className="chat" id="chatList">
                     {messages.map(data => (
@@ -90,6 +90,7 @@ function Chat() {
                                     <div className="msg">
                                         <p>{data.from}</p>
                                         <div className="message">{data.text}</div>
+                                        <div className="time">{data.time}</div>
                                     </div>
                                 </li>
                             ) : (

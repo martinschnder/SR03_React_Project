@@ -1,43 +1,20 @@
-/* .container {
-  background-color: var(--secondary-color);
-  border-radius: 5px;
-  padding: 15px;
-  margin-top: 2%;
-  color: whitesmoke;
-  line-height: 0;
-}
-
-.container h4 {
-  font-size: 18px;
-  text-transform: uppercase;
-}
-
-.container::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.container:nth-of-type(odd) {
-  background-color: var(--primary-color);
-} */
-
 .messages-container {
-    width: 80%;
+    width: 90%;
     height: 50%;
-    background-color: lightgrey;
     border-width: 2px;
     margin-top: 2%;
     margin-left: 5%;
     margin-right: 5%;
     justify-content: flex-end;
-    border: 1px solid #0248c2;
+    border: 1px solid var(--secondary-color);
     border-radius: 5px;
 }
 
 .time {
+    line-height: 0;
+    font-size: 0.8rem;
     float: right;
-    color: whitesmoke;
+    color: rgb(81, 84, 255);
 }
 
 .write-button {
@@ -47,8 +24,8 @@
     padding: 16px 32px;
     text-align: center;
     font-size: 16px;
-    margin: 4px 2px;
     margin-top: 5%;
+    margin-left: 5%;
     transition-duration: 0.4s;
     cursor: pointer;
     border-radius: 5px;
@@ -96,9 +73,11 @@
 }
 
 .write-input {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
     margin-top: 5%;
     display: none;
-    width: 80%;
     height: 50px;
     border: 2px solid var(--secondary-color);
     border-radius: 5px;
@@ -112,26 +91,20 @@
     position: relative;
     top: 10px;
     display: none;
-}
-
-@media (max-width: 800px) {
-    .container {
-        margin: 5%;
-    }
+    margin-left: 5%;
 }
 
 .chat {
     list-style: none;
     background: none;
-    margin: 0;
-    padding: 0 0 50px 0;
-    margin-top: 60px;
-    margin-bottom: 10px;
-    max-height: 400px;
+    margin-top: 0;
+    padding: 0;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    max-height: 95%;
     overflow: scroll;
     scroll-behavior: smooth;
     border-width: 3px;
-    border-color: black;
 }
 
 .chat li {
@@ -142,15 +115,16 @@
 
 .msg {
     background: white;
-    min-width: fit-content;
-    padding: 10px;
+    width: fit-content;
+    min-width: 50%;
+    padding: 15px;
     border-radius: 10px;
     box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
 }
 
 .msg p {
     font-size: 0.8rem;
-    margin: 0 0 0.2rem 0;
+    margin: 0 0 0.5rem 0;
     color: rgb(81, 84, 255);
 }
 
@@ -160,13 +134,15 @@
 }
 
 .self .msg {
+    background-color: #efefef;
     order: 1;
     border-bottom-right-radius: 0px;
     box-shadow: 1px 2px 0px #d4d4d4;
 }
 
 .other .msg {
+    background-color: #efefef;
     order: 1;
-    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
     box-shadow: -1px 2px 0px #d4d4d4;
 }

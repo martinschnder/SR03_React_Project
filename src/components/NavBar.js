@@ -1,14 +1,36 @@
 import './styles/navbar.css';
 import { NavLink } from "react-router-dom"
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import APIService from "../utils/APIService";
+import settings from './visuals/settings.png';
+import deconnexion from './visuals/deconnexion.png';
 
-function Navbar({ nom, prenom, email, allchannels }) {
-    const channels = allchannels.map((name, i) => {
+function Navbar() {
+    const [allchannels, setAllchannels] = useState([]);
+    const [nom, setNom] = useState();
+    const [prenom, setPrenom] = useState();
+    const [email, setEmail] = useState();
+
+    const channels = allchannels.map((channel, i) => {
         return (
             <div key={i} className="nav">
-                <a href="#">{name}</a>
+                <Link to="/seechannel" state={{ channel: channel.id, title: channel.title }}>
+                    {channel.title}
+                </Link>
             </div>
         )
     });
+    useEffect(() => {
+        APIService.getAllChannels(1).then((data) => {
+            setAllchannels(data)
+        });
+        APIService.getUser(1).then((data) => {
+            setEmail(data.mail);
+            setPrenom(data.firstName);
+            setNom(data.lastName);
+        });
+    }, [APIService.getAllChannels(1)]);
 
     return (
         <aside className="aside">
@@ -29,14 +51,15 @@ function Navbar({ nom, prenom, email, allchannels }) {
                     {channels}
                 </div>
             </div>
-            <a href="#">
-                <div className="sidebar-footer">
-                    <div className='user_infos_container'>
-                        <h4>{prenom + ' ' + nom}</h4>
-                        <h5>{email}</h5>
-                    </div>
+            <div className="sidebar-footer">
+                <div className='user_infos_container'>
+                    <h4>{prenom + ' ' + nom}</h4>
+                    <h5>{email}</h5>
                 </div>
-            </a>
+                <NavLink to="/modifyuser"><img width="20" height="20" src={settings} /></NavLink>
+                <NavLink to="/"><img width="20" height="20" src={deconnexion} /></NavLink>
+
+            </div>
         </aside >
     );
 }

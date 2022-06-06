@@ -10,6 +10,7 @@ import Home from './components/Home';
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import ModifyChat from './components/ModifyChat';
+import ModifyUser from './components/ModifyUser';
 
 function App() {
     useEffect(() => {
@@ -24,13 +25,14 @@ function App() {
     return (
         <BrowserRouter>
             <div className="flex-container">
-                <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" allchannels={["channel 1", "channel 2 "]} />
+                <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/addchannel" element={<AddChat />} />
                     <Route path="/mychannels" element={<MyChat />} />
                     <Route path="/modifychannel" element={<ModifyChat />} />
                     <Route path="/seechannel" element={<Chat />} />
+                    <Route path="/modifyuser" element={<ModifyUser />} />
                 </Routes>
             </div>
         </BrowserRouter>

@@ -1,8 +1,8 @@
 const REST_API = 'http://localhost:8080';
 
 class APIService {
-    getAllChannels() {
-        return fetch(REST_API + '/allchannels')
+    getAllChannels(id) {
+        return fetch('http://localhost:8080/allchannels/' + id)
             .then(res => res.json());
     }
 

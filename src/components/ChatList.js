@@ -79,7 +79,7 @@ function Chatlist({ mychannel }) {
 
     useEffect(() => {
         let fct = mychannel ?
-            APIService.getMyChannels(1) : APIService.getAllChannels();
+            APIService.getMyChannels(1) : APIService.getAllChannels(1);
         fct
             .then((data) => {
                 setAllchannels(data)
@@ -87,7 +87,7 @@ function Chatlist({ mychannel }) {
         if (mychannel === false) {
             findOwnerName();
         }
-    }, [mychannel ? APIService.getAllChannels() : APIService.getMyChannels(1)]);
+    }, [mychannel ? APIService.getAllChannels(1) : APIService.getMyChannels(1)]);
 
     return (
         <div className="table">
