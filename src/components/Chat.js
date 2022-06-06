@@ -3,18 +3,21 @@ import { over } from 'stompjs'
 import SockJS from 'sockjs-client'
 import './styles/chat.css';
 import Header from './Header';
+import { useLocation } from "react-router-dom";
+import { wait } from '@testing-library/user-event/dist/utils';
 
 
-function Chat({ channel }) {
+function Chat() {
 
+    const location = useLocation();
     const [messages, setMessages] = useState([]);
 
     // const message = (name, content, time) => {
     //     return (
-    //         <div class="container">
+    //         <div className="container">
     //             <h4>{name}</h4>
     //             <p>{content}</p>
-    //             <span class="time">{time}</span>
+    //             <span className="time">{time}</span>
     //         </div>
     //     )
     // };
@@ -48,26 +51,25 @@ function Chat({ channel }) {
         var socket = new SockJS('http://localhost:8080/chat');
         stompClient = over(socket);
         stompClient.connect({}, function (frame) {
-            // setConnected(true);
             console.log('Connected: ' + frame);
-            stompClient.subscribe(`/topic/messages/${channel}`, function (messageOutput) {
+            stompClient.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {
                 showMessageOutput(JSON.parse(messageOutput.body));
             });
         });
+        // return disconnect();
     }
 
     function disconnect() {
         if (stompClient != null) {
             stompClient.disconnect();
         }
-        // setConnected(false);
         console.log("Disconnected");
     }
 
     function sendMessage() {
         var from = "martin";
         var text = document.getElementById('text').value;
-        stompClient.send(`/app/chat/${channel}`, {},
+        stompClient.send(`/app/chat/${location.state.channel}`, {},
             JSON.stringify({ 'from': from, 'text': text }));
     }
 
@@ -78,8 +80,8 @@ function Chat({ channel }) {
 
     return (
         <main className="main">
-            <Header title={channel} />
-            <div id="messages-container" class="messages-container">
+            <Header title={location.state.title} />
+            <div id="messages-container" className="messages-container">
                 <ul className="chat" id="chatList">
                     {messages.map(data => (
                         <div>
@@ -103,12 +105,12 @@ function Chat({ channel }) {
                 </ul>
             </div>
             <div>
-                <input type="text" name="text" id="text" class="write-input" placeholder="Votre message..." />
+                <input type="text" name="text" id="text" className="write-input" placeholder="Votre message..." />
             </div>
-            <button class="write-button" id="write-button">Ecrire</button>
-            <div class="button-container">
-                <button class="send-button" id="send-button" onClick={sendMessage}>Envoyer</button>
-                <button class="close-button" id="close-button">Fermer</button>
+            <button className="write-button" id="write-button">Ecrire</button>
+            <div className="button-container">
+                <button className="send-button" id="send-button" onClick={sendMessage}>Envoyer</button>
+                <button className="close-button" id="close-button">Fermer</button>
             </div>
         </main>
     );

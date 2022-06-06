@@ -9,6 +9,7 @@ import MyChat from './components/MyChat';
 import Home from './components/Home';
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import ModifyChat from './components/ModifyChat';
 
 function App() {
     useEffect(() => {
@@ -24,12 +25,13 @@ function App() {
         <BrowserRouter>
             <div className="flex-container">
                 <Navbar nom="Schneider" prenom="Martin" email="martin@gmail.com" allchannels={["channel 1", "channel 2 "]} />
-                {/* <Routes>
+                <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/addchannel" element={<AddChat />} />
                     <Route path="/mychannels" element={<MyChat />} />
-                </Routes> */}
-                <Chat channel="channel2"></Chat>
+                    <Route path="/modifychannel" element={<ModifyChat />} />
+                    <Route path="/seechannel" element={<Chat />} />
+                </Routes>
             </div>
         </BrowserRouter>
     );
