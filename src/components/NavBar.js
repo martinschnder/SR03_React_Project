@@ -56,8 +56,8 @@ function Navbar() {
                     <h4>{prenom + ' ' + nom}</h4>
                     <h5>{email}</h5>
                 </div>
-                <NavLink to="/modifyuser"><img width="20" height="20" src={settings} /></NavLink>
-                <NavLink to="/"><img width="20" height="20" src={deconnexion} /></NavLink>
+                <NavLink to="/modifyuser"><img width="20" height="20" src={settings} alt="" /></NavLink>
+                <NavLink to="/"><img width="20" height="20" src={deconnexion} alt="" /></NavLink>
 
             </div>
         </aside >

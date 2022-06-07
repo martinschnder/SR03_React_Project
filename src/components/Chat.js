@@ -1,28 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { over } from 'stompjs'
 import SockJS from 'sockjs-client'
 import './styles/chat.css';
 import Header from './Header';
 import { useLocation } from "react-router-dom";
-import { wait } from '@testing-library/user-event/dist/utils';
 
 
 function Chat() {
 
     const location = useLocation();
     const [messages, setMessages] = useState([]);
-
-    // const message = (name, content, time) => {
-    //     return (
-    //         <div className="container">
-    //             <h4>{name}</h4>
-    //             <p>{content}</p>
-    //             <span className="time">{time}</span>
-    //         </div>
-    //     )
-    // };
+    const stompClient = useRef(null);
 
     useEffect(() => {
+
+        if (stompClient.current != null) return;
+
+        var socket = new SockJS('http://localhost:8080/chat');
+        stompClient.current = over(socket);
+
+        stompClient.current.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+
+            setTimeout(function () {
+                stompClient.current.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {
+                    // showMessageOutput(JSON.parse(messageOutput.body));
+                    let newMessage = JSON.parse(messageOutput.body);
+                    console.log(newMessage);
+                    setMessages((oldMessages) => [...oldMessages, newMessage]);
+                });
+            }, 500);
+        });
+        // return (() => {
+        //     if (stompClient.current != null) {
+        //         stompClient.current.disconnect();
+        //     }
+        //     setConnected(false);
+        //     console.log("Disconnected");
+        // })
+    }, []);
+
+    function sendMessage() {
+        var from = "martin";
+        var text = document.getElementById('text').value;
+
+        stompClient.current.send(`/app/chat/${location.state.channel}`, {},
+            JSON.stringify({ 'from': from, 'text': text }));
+
+        document.getElementById('text').value = '';
+    }
+
+
+
+    useEffect(() => {
+
         const writeButton = document.getElementById('write-button');
         writeButton.addEventListener('click', function (event) {
             const textInput = document.getElementById("text");
@@ -41,42 +72,7 @@ function Chat() {
             buttonDiv.style.display = "none";
             writeButton.style.display = "block";
         })
-        connect();
-
-    });
-
-    var stompClient = null;
-
-    function connect() {
-        var socket = new SockJS('http://localhost:8080/chat');
-        stompClient = over(socket);
-        stompClient.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
-            stompClient.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {
-                showMessageOutput(JSON.parse(messageOutput.body));
-            });
-        });
-        // return disconnect();
-    }
-
-    function disconnect() {
-        if (stompClient != null) {
-            stompClient.disconnect();
-        }
-        console.log("Disconnected");
-    }
-
-    function sendMessage() {
-        var from = "martin";
-        var text = document.getElementById('text').value;
-        stompClient.send(`/app/chat/${location.state.channel}`, {},
-            JSON.stringify({ 'from': from, 'text': text }));
-    }
-
-    function showMessageOutput(messageOutput) {
-        console.log(messageOutput);
-        setMessages([...messages, messageOutput]);
-    }
+    }, []);
 
     return (
         <main className="main">

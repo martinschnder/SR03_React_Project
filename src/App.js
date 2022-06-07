@@ -3,6 +3,7 @@ import Login from './components/Login';
 import Navbar from './components/NavBar';
 import Header from './components/Header';
 import Chat from './components/Chat';
+// import Chat from './components/Chat2';
 import Chatlist from './components/ChatList';
 import AddChat from './components/AddChat';
 import MyChat from './components/MyChat';
