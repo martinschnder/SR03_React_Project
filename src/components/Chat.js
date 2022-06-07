@@ -1,16 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import { over } from 'stompjs'
 import SockJS from 'sockjs-client'
 import './styles/chat.css';
 import Header from './Header';
 import { useLocation } from "react-router-dom";
+import { AuthContext } from "../utils/AuthContext";
+import APIService from '../utils/APIService';
 
 
 function Chat() {
 
     const location = useLocation();
     const [messages, setMessages] = useState([]);
+    const [id] = useContext(AuthContext);
     const stompClient = useRef(null);
+    const [prenom, setPrenom] = useState('');
 
     useEffect(() => {
 
@@ -41,7 +45,7 @@ function Chat() {
     }, []);
 
     function sendMessage() {
-        var from = "martin";
+        var from = prenom;
         var text = document.getElementById('text').value;
 
         stompClient.current.send(`/app/chat/${location.state.channel}`, {},
@@ -53,6 +57,9 @@ function Chat() {
 
 
     useEffect(() => {
+        APIService.getUser(id).then((data) => {
+            setPrenom(data.firstName);
+        });
 
         const writeButton = document.getElementById('write-button');
         writeButton.addEventListener('click', function (event) {
@@ -81,7 +88,7 @@ function Chat() {
                 <ul className="chat" id="chatList">
                     {messages.map(data => (
                         <div>
-                            {"martin" === data.from ? (
+                            {prenom === data.from ? (
                                 <li className="self">
                                     <div className="msg">
                                         <p>{data.from}</p>

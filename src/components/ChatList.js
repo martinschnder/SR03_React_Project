@@ -13,7 +13,7 @@ import { AuthContext } from "../utils/AuthContext";
 function Chatlist({ mychannel }) {
     const [allchannels, setAllchannels] = useState([]);
     const [owners] = useState([]);
-    const [id, setId] = useContext(AuthContext);
+    const [id] = useContext(AuthContext);
 
     let deleteChannel = async (id) => {
         const object = { id: id };

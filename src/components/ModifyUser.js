@@ -11,7 +11,7 @@ function ModifyUser() {
     const [nom, setNom] = useState();
     const [prenom, setPrenom] = useState();
     const [email, setEmail] = useState();
-    const [id, setId] = useContext(AuthContext);
+    const [id] = useContext(AuthContext);
 
     let handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +25,6 @@ function ModifyUser() {
                 },
                 body: JSON.stringify(object)
             });
-            let resJson = await res.json();
             if (res.status === 200) {
                 navigate('/');
             } else {
