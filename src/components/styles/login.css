@@ -39,7 +39,8 @@ a:hover {
 .main-login-form {
   position: relative;
 }
-.login-form-1 .form-control {
+
+.form-control {
   border: 0;
   box-shadow: 0 0 0;
   border-radius: 0;
@@ -81,7 +82,7 @@ a:hover {
   padding: 5px 0;
 }
 /*=== 5. Login Button ===*/
-.login-form-1 .login-button {
+.login-button {
   position: absolute;
   right: -25px;
   top: 50%;
@@ -95,6 +96,11 @@ a:hover {
   border-radius: 50%;
   transition: all ease-in-out 500ms;
 }
+
+.login-button:hover {
+  cursor: pointer;
+}
+
 .login-form-1 .login-button:hover {
   color: #555555;
   transform: rotate(450deg);
@@ -139,9 +145,14 @@ a:hover {
   font-weight: bold;
   font-size: 20px;
 }
+
 .logo {
   padding: 15px 0;
   font-size: 35px;
   color: #aaaaaa;
   font-weight: bold;
+}
+
+input:focus {
+  outline:none;
 }
