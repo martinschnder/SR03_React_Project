@@ -1,8 +1,9 @@
 import "./styles/form.css"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import APIService from "../utils/APIService";
 import Header from "./Header";
+import { AuthContext } from "../utils/AuthContext";
 
 function ModifyUser() {
     const navigate = useNavigate();
@@ -10,11 +11,12 @@ function ModifyUser() {
     const [nom, setNom] = useState();
     const [prenom, setPrenom] = useState();
     const [email, setEmail] = useState();
+    const [id, setId] = useContext(AuthContext);
 
     let handleSubmit = async (e) => {
         e.preventDefault();
         const object = {};
-        Object.assign(object, { id: 1, firstName: prenom, lastName: nom, mail: email });
+        Object.assign(object, { id: id, firstName: prenom, lastName: nom, mail: email });
         try {
             let res = await fetch('http://localhost:8080/modifyuser', {
                 method: "POST",
@@ -35,7 +37,7 @@ function ModifyUser() {
     };
 
     useEffect(() => {
-        APIService.getUser(1).then((data) => {
+        APIService.getUser(id).then((data) => {
             setEmail(data.mail);
             setPrenom(data.firstName);
             setNom(data.lastName);

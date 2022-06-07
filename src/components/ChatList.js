@@ -5,13 +5,15 @@ import deleteimage from './visuals/delete.png';
 import deleteimage_white from './visuals/delete_white.png';
 import see from './visuals/see.png';
 import see_white from './visuals/see_white.png';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import APIService from "../utils/APIService";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../utils/AuthContext";
 
 function Chatlist({ mychannel }) {
     const [allchannels, setAllchannels] = useState([]);
     const [owners] = useState([]);
+    const [id, setId] = useContext(AuthContext);
 
     let deleteChannel = async (id) => {
         const object = { id: id };
@@ -79,7 +81,7 @@ function Chatlist({ mychannel }) {
 
     useEffect(() => {
         let fct = mychannel ?
-            APIService.getMyChannels(1) : APIService.getAllChannels(1);
+            APIService.getMyChannels(id) : APIService.getAllChannels(id);
         fct
             .then((data) => {
                 setAllchannels(data)
@@ -87,7 +89,7 @@ function Chatlist({ mychannel }) {
         if (mychannel === false) {
             findOwnerName();
         }
-    }, [mychannel ? APIService.getAllChannels(1) : APIService.getMyChannels(1)]);
+    }, [mychannel ? APIService.getAllChannels(id) : APIService.getMyChannels(id)]);
 
     return (
         <div className="table">

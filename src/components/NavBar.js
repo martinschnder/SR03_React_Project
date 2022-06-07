@@ -33,15 +33,15 @@ function Navbar() {
     };
 
     useEffect(() => {
-        APIService.getAllChannels(1).then((data) => {
+        APIService.getAllChannels(id).then((data) => {
             setAllchannels(data)
         });
-        APIService.getUser(1).then((data) => {
+        APIService.getUser(id).then((data) => {
             setEmail(data.mail);
             setPrenom(data.firstName);
             setNom(data.lastName);
         });
-    }, [APIService.getAllChannels(1)]);
+    }, [APIService.getAllChannels(id)]);
 
     return (
         <aside className="aside">
