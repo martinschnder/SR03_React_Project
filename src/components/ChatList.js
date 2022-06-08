@@ -72,11 +72,11 @@ function Chatlist({ mychannel }) {
             });
 
     const findOwnerName = () => {
-        allchannels.map((channel) => {
+        allchannels.map((channel) => (
             APIService.getUser(channel.owner).then((data) => {
                 owners.push(data.firstName + ' ' + data.lastName);
             })
-        })
+        ))
     }
 
     useEffect(() => {
@@ -89,7 +89,7 @@ function Chatlist({ mychannel }) {
         if (mychannel === false) {
             findOwnerName();
         }
-    }, [mychannel ? APIService.getAllChannels(id) : APIService.getMyChannels(id)]);
+    }, [mychannel ? APIService.getAllChannels(id) : APIService.getMyChannels(id), id, mychannel]);
 
     return (
         <div className="table">

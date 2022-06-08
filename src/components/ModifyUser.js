@@ -41,7 +41,7 @@ function ModifyUser() {
             setPrenom(data.firstName);
             setNom(data.lastName);
         });
-    }, []);
+    }, [id]);
 
     return (
         <main className="main">

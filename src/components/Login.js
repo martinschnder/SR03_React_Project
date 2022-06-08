@@ -1,11 +1,12 @@
 import "./styles/login.css"
 import React, { useContext, useState } from 'react';
+import { sha512 } from 'crypto-hash';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../utils/AuthContext';
 
 export default function Login() {
-    const [setSign] = useContext(AuthContext);
-    const [setId] = useContext(AuthContext);
+    const [sign, setSign] = useContext(AuthContext);
+    const [id, setId] = useContext(AuthContext);
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -13,8 +14,10 @@ export default function Login() {
 
     const handleSignIn = async (e) => {
         e.preventDefault();
+        let hash = await sha512(password);
+        console.log(hash);
         const object = {};
-        Object.assign(object, { mail: mail, password: password });
+        Object.assign(object, { mail: mail, password: hash });
         try {
             let res = await fetch('http://localhost:8080/loguser', {
                 method: "POST",
@@ -30,7 +33,7 @@ export default function Login() {
                 navigate('/');
             }
         } catch (err) {
-            console.log("Une erreur est survenue");
+            console.log(err);
             document.getElementsByClassName('login-button')[0].style.border = "5px solid #e74c3c";
             document.getElementsByClassName('form-control')[0].style.color = "#e74c3c";
             document.getElementsByClassName('form-control')[1].style.color = "#e74c3c";

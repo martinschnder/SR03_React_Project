@@ -18,7 +18,10 @@ function Chat() {
 
     useEffect(() => {
 
-        if (stompClient.current != null) return;
+        if (stompClient.current != null) {
+            console.log("StompClient is not null");
+            return 1;
+        }
 
         var socket = new SockJS('http://localhost:8080/chat');
         stompClient.current = over(socket);
@@ -35,14 +38,13 @@ function Chat() {
                 });
             }, 500);
         });
-        // return (() => {
-        //     if (stompClient.current != null) {
-        //         stompClient.current.disconnect();
-        //     }
-        //     setConnected(false);
-        //     console.log("Disconnected");
-        // })
-    }, []);
+        return (() => {
+            if (stompClient.current != null) {
+                console.log("Disconnected my dear : stomp :" + stompClient.current);
+                stompClient.current.disconnect();
+            }
+        })
+    }, [location]);
 
     function sendMessage() {
         var from = prenom;
