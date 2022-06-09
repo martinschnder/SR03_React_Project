@@ -61,7 +61,7 @@ function Chatlist({ mychannel }) {
                 return (
                     <div key={i} className="table-row">
                         <div className="table-data">{channel.title}</div>
-                        <div className="table-data">{owners[i]}</div>
+                        <div className="table-data">{owners[channel.owner]}</div>
                         <div className="table-data voir">
                             <Link to="/seechannel" state={{ channel: channel.id, title: channel.title, smalltitle: channel.description }}>
                                 <img alt="" width="20" height="20" src={i % 2 === 0 ? see_white : see} />
@@ -71,14 +71,6 @@ function Chatlist({ mychannel }) {
                 )
             });
 
-    const findOwnerName = () => {
-        allchannels.map((channel) => (
-            APIService.getUser(channel.owner).then((data) => {
-                owners.push(data.firstName + ' ' + data.lastName);
-            })
-        ))
-    }
-
     useEffect(() => {
         let fct = mychannel ?
             APIService.getMyChannels(id) : APIService.getAllChannels(id);
@@ -87,9 +79,13 @@ function Chatlist({ mychannel }) {
                 setAllchannels(data)
             });
         if (mychannel === false) {
-            findOwnerName();
+            APIService.getUsers().then((data) => {
+                data.map((user) => {
+                    owners[user.id] = user.firstName + ' ' + user.lastName;
+                })
+            });
         }
-    }, []);
+    }, [owners]);
 
     const handleSearch = (input) => {
         let temp = [];
