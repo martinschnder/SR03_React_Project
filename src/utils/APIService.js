@@ -14,6 +14,11 @@ class APIService {
             .then(res => res.json());
     }
 
+    getUsers() {
+        return fetch('http://localhost:8080/getusers')
+            .then(res => res.json());
+    }
+
     getGuests(id) {
         return fetch('http://localhost:8080/guests/' + id)
             .then(res => res.json());

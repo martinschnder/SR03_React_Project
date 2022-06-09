@@ -85,7 +85,6 @@ function Chatlist({ mychannel }) {
                 )
             });
 
-
     useEffect(() => {
         let fct = mychannel ?
             APIService.getMyChannels(id) : APIService.getAllChannels(id);
