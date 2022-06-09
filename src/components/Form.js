@@ -1,17 +1,20 @@
 import "./styles/form.css"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import APIService from "../utils/APIService";
 import deleteimage from './visuals/delete.png';
 import deleteimage_white from './visuals/delete_white.png';
 import addimage from './visuals/add.png';
 import addimage_white from './visuals/add_white.png';
+import { AuthContext } from "../utils/AuthContext";
 
 function Form({ channel, titre, desc }) {
     const [title, setTitle] = useState(titre);
     const [description, setDescription] = useState(desc);
     const [guests, setGuests] = useState([]);
     const [noguests, setNoguests] = useState([]);
+    const [id] = useContext(AuthContext);
+    const [nb, setNb] = useState(0);
 
     const navigate = useNavigate();
 
@@ -42,7 +45,7 @@ function Form({ channel, titre, desc }) {
         }
     };
 
-    let deleteGuest = async (channel, guest) => {
+    let deleteGuest = async (channel, guest, i) => {
         const object = { user: guest, channel: channel };
         try {
             let res = await fetch('http://localhost:8080/deleteguest', {
@@ -55,6 +58,7 @@ function Form({ channel, titre, desc }) {
             // let resJson = await res.json();
             if (res.status === 200) {
                 console.log("Guest deleted successfully");
+                setNb(nb - 1);
             } else {
                 console.log("Some error occured");
             }
@@ -63,7 +67,7 @@ function Form({ channel, titre, desc }) {
         }
     };
 
-    let addGuest = async (channel, guest) => {
+    let addGuest = async (channel, guest, i) => {
         const object = { user: guest, channel: channel };
         try {
             let res = await fetch('http://localhost:8080/addguest', {
@@ -76,6 +80,7 @@ function Form({ channel, titre, desc }) {
             let resJson = await res.json();
             if (res.status === 200) {
                 console.log("guest added");
+                setNb(nb + 1);
             } else {
                 console.log("Some error occured");
             }
@@ -104,7 +109,7 @@ function Form({ channel, titre, desc }) {
                                 <div key={i} className="table-row">
                                     <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
                                     <div className="table-data">
-                                        <img width="20" height="20" onClick={() => deleteGuest(channel, guest.id)} src={i % 2 == 0 ? deleteimage_white : deleteimage} />
+                                        <img width="20" height="20" onClick={() => deleteGuest(channel, guest.id, i)} src={i % 2 == 0 ? deleteimage_white : deleteimage} />
                                     </div>
                                 </div>
                             )
@@ -130,54 +135,35 @@ function Form({ channel, titre, desc }) {
                 </div>
                 <div className="table-content">
                     {noguests.map((guest, i) => {
-                        return (
-                            <div key={i} className="table-row">
-                                <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
-                                <div className="table-data">
-                                    <img width="20" height="20" onClick={() => addGuest(channel, guest.id)} src={i % 2 == 0 ? addimage_white : addimage} />
+                        if (guest.id == id) {
+                            delete noguests[i];
+                        } else {
+                            return (
+                                <div key={i} className="table-row">
+                                    <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
+                                    <div className="table-data">
+                                        <img width="20" height="20" onClick={() => addGuest(channel, guest.id, i)} src={i % 2 == 0 ? addimage : addimage_white} />
+                                    </div>
                                 </div>
-                            </div>
-                        )
+                            )
+                        }
                     })}
                 </div>
             </div>
         </>
     )
 
-    const allguests =
-        guests.map((guest, i) => {
-            return (
-                <div key={i} className="table-row">
-                    <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
-                    <div className="table-data">
-                        <img width="20" height="20" onClick={() => deleteGuest(channel, guest.id)} src={i % 2 == 0 ? deleteimage_white : deleteimage} />
-                    </div>
-                </div>
-            )
-        });
-
-    const noneguests =
-        noguests.map((guest, i) => {
-            return (
-                <div key={i} className="table-row">
-                    <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
-                    <div className="table-data">
-                        <img width="20" height="20" onClick={() => addGuest(channel, guest.id)} src={i % 2 == 0 ? addimage_white : addimage} />
-                    </div>
-                </div>
-            )
-        });
-
     useEffect(() => {
         if (channel) {
+            APIService.getNoneGuests(channel).then((data) => {
+                setNoguests(data);
+            });
             APIService.getGuests(channel).then((data) => {
                 setGuests(data)
             });
-            APIService.getNoneGuests(channel).then((data) => {
-                setNoguests(data)
-            });
         }
-    }, [channel ? APIService.getGuests(channel) : null, channel ? APIService.getNoneGuests(channel) : null]);
+        setNb(guests.length);
+    }, [nb]);
 
     return (
         <form className="form-text" onSubmit={(e) => handleSubmit(e)}>

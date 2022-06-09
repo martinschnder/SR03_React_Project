@@ -8,23 +8,12 @@ import settings from './visuals/settings.png';
 import deconnexion from './visuals/deconnexion.png';
 
 function Navbar() {
-    const [allchannels, setAllchannels] = useState([]);
     const [nom, setNom] = useState();
     const [prenom, setPrenom] = useState();
     const [email, setEmail] = useState();
     const [id, setId] = useContext(AuthContext);
     const [sign, setSign] = useContext(AuthContext);
     const navigate = useNavigate();
-
-    const channels = allchannels.map((channel, i) => {
-        return (
-            <div key={i} className="nav">
-                <Link to="/seechannel" state={{ channel: channel.id, title: channel.title, smalltitle: channel.description }}>
-                    {channel.title}
-                </Link>
-            </div>
-        )
-    });
 
     const disconnect = () => {
         setSign(false);
@@ -33,15 +22,12 @@ function Navbar() {
     };
 
     useEffect(() => {
-        APIService.getAllChannels(id).then((data) => {
-            setAllchannels(data)
-        });
         APIService.getUser(id).then((data) => {
             setEmail(data.mail);
             setPrenom(data.firstName);
             setNom(data.lastName);
         });
-    }, [APIService.getAllChannels(id)]);
+    }, []);
 
     return (
         <aside className="aside">
@@ -59,7 +45,6 @@ function Navbar() {
                     <div className="fix-nav">
                         <h4><NavLink to="/">TOUS LES CHATS</NavLink></h4>
                     </div>
-                    {channels}
                 </div>
             </div>
             <div className="sidebar-footer">
