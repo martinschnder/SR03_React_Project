@@ -9,11 +9,13 @@ import { useContext, useEffect, useState } from "react";
 import APIService from "../utils/APIService";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
+import { queryAllByAltText } from "@testing-library/react";
 
 function Chatlist({ mychannel }) {
     const [allchannels, setAllchannels] = useState([]);
     const [owners] = useState([]);
     const [id] = useContext(AuthContext);
+    const [query, setQuery] = useState('');
 
     let deleteChannel = async (id) => {
         const object = { id: id };
@@ -38,7 +40,13 @@ function Chatlist({ mychannel }) {
 
     const channels =
         mychannel ?
-            allchannels.map((channel, i) => {
+            allchannels.filter(channel => {
+                if (query === '') {
+                    return channel;
+                } else if (channel.title.toLowerCase().includes(query.toLowerCase())) {
+                    return channel;
+                }
+            }).map((channel, i) => {
                 return (
                     <div key={i} className="table-row">
                         <div className="table-data">{channel.title}</div>
@@ -57,7 +65,14 @@ function Chatlist({ mychannel }) {
                         </div>
                     </div>
                 )
-            }) : allchannels.map((channel, i) => {
+            }) :
+            allchannels.filter(channel => {
+                if (query === '') {
+                    return channel;
+                } else if (channel.title.toLowerCase().includes(query.toLowerCase())) {
+                    return channel;
+                }
+            }).map((channel, i) => {
                 return (
                     <div key={i} className="table-row">
                         <div className="table-data">{channel.title}</div>
@@ -91,21 +106,9 @@ function Chatlist({ mychannel }) {
         }
     }, []);
 
-    const handleSearch = (input) => {
-        let temp = [];
-        for (let i = 0; i < allchannels.length; i++) {
-            if (allchannels[i].title.startsWith(input)) {
-                temp.push(allchannels[i]);
-            }
-        }
-        setAllchannels(temp);
-    };
-
     return (
         <div className="table">
-            <form method="get" noValidate>
-                <input type="text" name="text" id="text" className="search" placeholder="Rechercher un chat..." onChange={(event) => handleSearch(event.target.value)} />
-            </form>
+            <input type="text" name="text" id="text" className="search" placeholder="Rechercher un chat..." onChange={event => setQuery(event.target.value)} />
             <div className="table-header">
                 <div className="header__item">
                     <h4>chat</h4>
