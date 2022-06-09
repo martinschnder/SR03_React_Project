@@ -39,12 +39,6 @@ function Chat() {
                 });
             }, 500);
         });
-        return (() => {
-            if (stompClient.current != null) {
-                console.log("Disconnected my dear : stomp :" + stompClient.current);
-                stompClient.current.disconnect();
-            }
-        })
     }, [location]);
 
     const generateColor = (name) => {
