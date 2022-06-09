@@ -27,7 +27,7 @@ function Navbar() {
             setPrenom(data.firstName);
             setNom(data.lastName);
         });
-    }, []);
+    }, [APIService.getUser(id)]);
 
     return (
         <aside className="aside">

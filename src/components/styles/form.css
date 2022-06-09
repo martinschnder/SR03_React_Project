@@ -47,6 +47,10 @@
 	margin-top: 20px;
 }
 
+.alerte {
+	color: #e74c3c;
+}
+
 .action-button {
     border : 0;
     background-color: #0248c2;
