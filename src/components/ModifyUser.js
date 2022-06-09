@@ -11,9 +11,17 @@ function ModifyUser() {
     const [nom, setNom] = useState();
     const [prenom, setPrenom] = useState();
     const [email, setEmail] = useState();
+    const [realpassword, setRealpassword] = useState();
+    const [previouspassword, setPreviouspassword] = useState();
+    const [newpassword, setNewpassword] = useState();
     const [id] = useContext(AuthContext);
+    const [alertmessage, setAlertmessage] = useState('');
 
     let handleSubmit = async (e) => {
+        if (realpassword != previouspassword) {
+            setAlertmessage("L'ancien mot de passe n'est pas le bon.");
+            return
+        }
         e.preventDefault();
         const object = {};
         Object.assign(object, { id: id, firstName: prenom, lastName: nom, mail: email });
@@ -40,6 +48,7 @@ function ModifyUser() {
             setEmail(data.mail);
             setPrenom(data.firstName);
             setNom(data.lastName);
+            setRealpassword(data.password);
         });
     }, []);
 
@@ -56,9 +65,18 @@ function ModifyUser() {
                     <label className="input-label">Prénom</label>
                 </div>
                 <div className="input">
-                    <input type="text" className="input-field" value={email} onChange={(e) => setPrenom(e.target.value)} required />
+                    <input type="text" className="input-field" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     <label className="input-label">Email</label>
                 </div>
+                <div className="input">
+                    <input type="password" className="input-field" value={previouspassword} onChange={(e) => setPreviouspassword(e.target.value)} required />
+                    <label className="input-label">Ancien mot de passe</label>
+                </div>
+                <div className="input">
+                    <input type="password" className="input-field" value={newpassword} onChange={(e) => setNewpassword(e.target.value)} required />
+                    <label className="input-label">Nouveau mot de passe</label>
+                </div>
+                {alertmessage != '' ? <p className="alerte">{alertmessage}</p> : null}
                 <div className="action">
                     <button className="action-button" type="submit">Valider</button>
                 </div>

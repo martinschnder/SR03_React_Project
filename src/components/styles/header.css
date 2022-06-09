@@ -15,3 +15,11 @@ header {
     line-height: 0;
     color : #616161;
   }
+
+  header h3 {
+    font-size: 18px;
+    padding: 2px;
+    margin-bottom: 0;
+    margin-top: 20px;
+    color : var(--primary-color);
+  }

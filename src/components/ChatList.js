@@ -51,7 +51,7 @@ function Chatlist({ mychannel }) {
                             <img alt="" onClick={() => deleteChannel(channel.id)} width="20" height="20" src={i % 2 === 0 ? deleteimage_white : deleteimage} />
                         </div>
                         <div className="table-data voir">
-                            <Link to="/seechannel" state={{ channel: channel.id, title: channel.title }}>
+                            <Link to="/seechannel" state={{ channel: channel.id, title: channel.title, smalltitle: channel.description }}>
                                 <img alt="" width="20" height="20" src={i % 2 === 0 ? see_white : see} />
                             </Link>
                         </div>
@@ -63,7 +63,7 @@ function Chatlist({ mychannel }) {
                         <div className="table-data">{channel.title}</div>
                         <div className="table-data">{owners[i]}</div>
                         <div className="table-data voir">
-                            <Link to="/seechannel" state={{ channel: channel.id, title: channel.title }}>
+                            <Link to="/seechannel" state={{ channel: channel.id, title: channel.title, smalltitle: channel.description }}>
                                 <img alt="" width="20" height="20" src={i % 2 === 0 ? see_white : see} />
                             </Link>
                         </div>

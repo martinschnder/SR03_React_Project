@@ -15,6 +15,7 @@ function Chat() {
     const [id] = useContext(AuthContext);
     const stompClient = useRef(null);
     const [prenom, setPrenom] = useState('');
+    var colors = new Map();
 
     useEffect(() => {
 
@@ -43,6 +44,18 @@ function Chat() {
         //     console.log("Disconnected");
         // })
     }, []);
+
+    const generateColor = (name) => {
+        console.log(colors.get(name));
+        if (colors.get(name) === undefined) {
+            let newcolor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+            colors.set(name, newcolor);
+            return newcolor;
+        } else {
+
+            return colors.get(name);
+        }
+    }
 
     function sendMessage() {
         var from = prenom;
@@ -83,7 +96,7 @@ function Chat() {
 
     return (
         <main className="main">
-            <Header title={"Salon du chat : " + location.state.title} />
+            <Header title={"Salon du chat : " + location.state.title} smalltitle={"Description : " + location.state.smalltitle} />
             <div id="messages-container" className="messages-container">
                 <ul className="chat" id="chatList">
                     {messages.map(data => (
@@ -99,15 +112,16 @@ function Chat() {
                             ) : (
                                 <li className="other">
                                     <div className="msg">
-                                        <p>{data.from}</p>
+                                        <p style={{ color: "#" + generateColor(data.from) }}>{data.from}</p>
                                         <div className="message"> {data.text} </div>
+                                        <div style={{ color: "#" + generateColor(data.from) }} className="time">{data.time}</div>
                                     </div>
                                 </li>
                             )}
                         </div>
                     ))}
                 </ul>
-            </div>
+            </div >
             <div>
                 <input type="text" name="text" id="text" className="write-input" placeholder="Votre message..." />
             </div>
@@ -116,7 +130,7 @@ function Chat() {
                 <button className="send-button" id="send-button" onClick={sendMessage}>Envoyer</button>
                 <button className="close-button" id="close-button">Fermer</button>
             </div>
-        </main>
+        </main >
     );
 }
 

@@ -19,7 +19,7 @@ function Navbar() {
     const channels = allchannels.map((channel, i) => {
         return (
             <div key={i} className="nav">
-                <Link to="/seechannel" state={{ channel: channel.id, title: channel.title }}>
+                <Link to="/seechannel" state={{ channel: channel.id, title: channel.title, smalltitle: channel.description }}>
                     {channel.title}
                 </Link>
             </div>

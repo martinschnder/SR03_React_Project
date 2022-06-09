@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../utils/AuthContext';
 
 export default function Login() {
-    const [setSign] = useContext(AuthContext);
-    const [setId] = useContext(AuthContext);
+    const [sign, setSign] = useContext(AuthContext);
+    const [id, setId] = useContext(AuthContext);
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -28,13 +28,14 @@ export default function Login() {
                 setSign(true);
                 setId(resJson.id);
                 navigate('/');
+            } else {
+                document.getElementsByClassName('login-button')[0].style.border = "5px solid #e74c3c";
+                document.getElementsByClassName('form-control')[0].style.color = "#e74c3c";
+                document.getElementsByClassName('form-control')[1].style.color = "#e74c3c";
+                document.getElementsByClassName('chevron')[0].style.color = "#e74c3c";
             }
         } catch (err) {
-            console.log("Une erreur est survenue");
-            document.getElementsByClassName('login-button')[0].style.border = "5px solid #e74c3c";
-            document.getElementsByClassName('form-control')[0].style.color = "#e74c3c";
-            document.getElementsByClassName('form-control')[1].style.color = "#e74c3c";
-            document.getElementsByClassName('chevron')[0].style.color = "#e74c3c";
+            console.log(err);
         }
     };
 
