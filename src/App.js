@@ -31,13 +31,13 @@ function App() {
                 <div className="flex-container">
                     {sign ? <Navbar /> : null}
                     <Routes>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/" element={sign ? <Home /> : <Navigate to="/login" />} />
-                        <Route path="/addchannel" element={sign ? <AddChat /> : <Navigate to="/login" />} />
-                        <Route path="/mychannels" element={sign ? <MyChat /> : <Navigate to="/login" />} />
-                        <Route path="/modifychannel" element={sign ? <ModifyChat /> : <Navigate to="/login" />} />
-                        <Route path="/seechannel" element={sign ? <Chat /> : <Navigate to="/login" />} />
-                        <Route path="/modifyuser" element={sign ? <ModifyUser /> : <Navigate to="/login" />} />
+                        <Route exact path="/login" element={<Login />} />
+                        <Route exact path="/" element={sign ? <Home /> : <Navigate to="/login" />} />
+                        <Route exact path="/addchannel" element={sign ? <AddChat /> : <Navigate to="/login" />} />
+                        <Route exact path="/mychannels" element={sign ? <MyChat /> : <Navigate to="/login" />} />
+                        <Route exact path="/modifychannel" element={sign ? <ModifyChat /> : <Navigate to="/login" />} />
+                        <Route exact path="/seechannel" element={sign ? <Chat /> : <Navigate to="/login" />} />
+                        <Route exact path="/modifyuser" element={sign ? <ModifyUser /> : <Navigate to="/login" />} />
                     </Routes>
                 </div>
             </BrowserRouter>

@@ -89,12 +89,22 @@ function Chatlist({ mychannel }) {
         if (mychannel === false) {
             findOwnerName();
         }
-    }, [mychannel ? APIService.getAllChannels(id) : APIService.getMyChannels(id), id, mychannel]);
+    }, []);
+
+    const handleSearch = (input) => {
+        let temp = [];
+        for (let i = 0; i < allchannels.length; i++) {
+            if (allchannels[i].title.startsWith(input)) {
+                temp.push(allchannels[i]);
+            }
+        }
+        setAllchannels(temp);
+    };
 
     return (
         <div className="table">
             <form method="get" noValidate>
-                <input type="text" name="text" id="text" className="search" placeholder="Rechercher un chat..." />
+                <input type="text" name="text" id="text" className="search" placeholder="Rechercher un chat..." onChange={(event) => handleSearch(event.target.value)} />
             </form>
             <div className="table-header">
                 <div className="header__item">
