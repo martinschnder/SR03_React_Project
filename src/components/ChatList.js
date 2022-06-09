@@ -13,7 +13,6 @@ import { queryAllByAltText } from "@testing-library/react";
 
 function Chatlist({ mychannel }) {
     const [allchannels, setAllchannels] = useState([]);
-    const [owners] = useState([]);
     const [id] = useContext(AuthContext);
     const [query, setQuery] = useState('');
 
@@ -76,7 +75,7 @@ function Chatlist({ mychannel }) {
                 return (
                     <div key={i} className="table-row">
                         <div className="table-data">{channel.title}</div>
-                        <div className="table-data">{owners[i]}</div>
+                        <div className="table-data">{channel.owner.firstName} {channel.owner.lastName}</div>
                         <div className="table-data voir">
                             <Link to="/seechannel" state={{ channel: channel.id, title: channel.title, smalltitle: channel.description }}>
                                 <img alt="" width="20" height="20" src={i % 2 === 0 ? see_white : see} />
@@ -86,13 +85,6 @@ function Chatlist({ mychannel }) {
                 )
             });
 
-    const findOwnerName = () => {
-        allchannels.map((channel) => (
-            APIService.getUser(channel.owner).then((data) => {
-                owners.push(data.firstName + ' ' + data.lastName);
-            })
-        ))
-    }
 
     useEffect(() => {
         let fct = mychannel ?
@@ -101,9 +93,6 @@ function Chatlist({ mychannel }) {
             .then((data) => {
                 setAllchannels(data)
             });
-        if (mychannel === false) {
-            findOwnerName();
-        }
     }, []);
 
     return (

@@ -22,9 +22,9 @@ function Form({ channel, titre, desc }) {
         e.preventDefault();
         const object = {};
         if (channel) {
-            Object.assign(object, { id: channel, title: title, description: description });
+            Object.assign(object, { id: channel, title: title, description: description, ownerId: id });
         } else {
-            Object.assign(object, { title: title, description: description });
+            Object.assign(object, { title: title, description: description, ownerId: id });
         }
         try {
             let res = await fetch('http://localhost:8080/addchannel', {
@@ -34,7 +34,6 @@ function Form({ channel, titre, desc }) {
                 },
                 body: JSON.stringify(object)
             });
-            let resJson = await res.json();
             if (res.status === 200) {
                 navigate('/mychannels');
             } else {
@@ -55,7 +54,6 @@ function Form({ channel, titre, desc }) {
                 },
                 body: JSON.stringify(object)
             });
-            // let resJson = await res.json();
             if (res.status === 200) {
                 console.log("Guest deleted successfully");
                 setNb(nb - 1);
@@ -77,7 +75,6 @@ function Form({ channel, titre, desc }) {
                 },
                 body: JSON.stringify(object)
             });
-            let resJson = await res.json();
             if (res.status === 200) {
                 console.log("guest added");
                 setNb(nb + 1);
@@ -92,7 +89,7 @@ function Form({ channel, titre, desc }) {
     const allComponent = (
         <>
             <p className="label" > Invités</p >
-            {guests.length == 0 ?
+            {guests.length === 0 ?
                 <p>Il n'y a pas d'invité dans ce chat.</p> :
                 <div className="table">
                     <div className="table-header">
@@ -109,7 +106,7 @@ function Form({ channel, titre, desc }) {
                                 <div key={i} className="table-row">
                                     <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
                                     <div className="table-data">
-                                        <img width="20" height="20" onClick={() => deleteGuest(channel, guest.id, i)} src={i % 2 == 0 ? deleteimage_white : deleteimage} />
+                                        <img alt="" width="20" height="20" onClick={() => deleteGuest(channel, guest.id, i)} src={i % 2 === 0 ? deleteimage_white : deleteimage} />
                                     </div>
                                 </div>
                             )
@@ -135,14 +132,14 @@ function Form({ channel, titre, desc }) {
                 </div>
                 <div className="table-content">
                     {noguests.map((guest, i) => {
-                        if (guest.id == id) {
+                        if (guest.id === id) {
                             delete noguests[i];
                         } else {
                             return (
                                 <div key={i} className="table-row">
                                     <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
                                     <div className="table-data">
-                                        <img width="20" height="20" onClick={() => addGuest(channel, guest.id, i)} src={i % 2 == 0 ? addimage : addimage_white} />
+                                        <img alt="" width="20" height="20" onClick={() => addGuest(channel, guest.id, i)} src={i % 2 === 0 ? addimage : addimage_white} />
                                     </div>
                                 </div>
                             )
