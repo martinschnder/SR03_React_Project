@@ -50,7 +50,7 @@ function ModifyUser() {
             setNom(data.lastName);
             setRealpassword(data.password);
         });
-    }, []);
+    }, [id]);
 
     return (
         <main className="main">
