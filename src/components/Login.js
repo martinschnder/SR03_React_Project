@@ -15,7 +15,6 @@ export default function Login() {
     const handleSignIn = async (e) => {
         e.preventDefault();
         let hash = await sha512(password);
-        console.log(hash);
         const object = {};
         Object.assign(object, { mail: mail, password: hash });
         try {
