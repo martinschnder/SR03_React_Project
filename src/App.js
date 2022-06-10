@@ -10,7 +10,6 @@ import ModifyUser from './components/ModifyUser';
 import { AuthContext } from './utils/AuthContext';
 import Login from './components/Login';
 import Navbar from './components/NavBar'
-import APIService from './utils/APIService';
 
 function App() {
     const [sign, setSign] = useState(false);
