@@ -17,29 +17,41 @@ function Chat() {
     const [prenom, setPrenom] = useState('');
     var colors = new Map();
 
+
+
     useEffect(() => {
 
         if (stompClient.current != null) {
             console.log("StompClient is not null");
-            return 1;
+            return undefined;
         }
 
-        var socket = new SockJS('http://localhost:8080/chat');
-        stompClient.current = over(socket);
+        function connect() {
+            var socket = new SockJS('http://localhost:8080/chat');
+            stompClient.current = over(socket);
 
-        stompClient.current.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
+            stompClient.current.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
 
-            setTimeout(function () {
                 stompClient.current.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {
-                    // showMessageOutput(JSON.parse(messageOutput.body));
                     let newMessage = JSON.parse(messageOutput.body);
                     console.log(newMessage);
                     setMessages((oldMessages) => [...oldMessages, newMessage]);
                 });
-            }, 500);
-        });
-    }, [location]);
+            });
+        }
+
+        connect();
+
+        // return (() => {
+        //     if (stompClient.current != null) {
+        //         console.log("trying to disconnect")
+        //         stompClient.current.disconnect();
+        //     }
+        //     console.log("Disconnected");
+        // })
+
+    }, []);
 
     const generateColor = (name) => {
         console.log(colors.get(name));
@@ -95,8 +107,8 @@ function Chat() {
             <Header title={"Salon du chat : " + location.state.title} smalltitle={"Description : " + location.state.smalltitle} />
             <div id="messages-container" className="messages-container">
                 <ul className="chat" id="chatList">
-                    {messages.map(data => (
-                        <div>
+                    {messages.map((data, i) => (
+                        <div key={i}>
                             {prenom === data.from ? (
                                 <li className="self">
                                     <div className="msg">
