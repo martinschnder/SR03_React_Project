@@ -25,8 +25,9 @@
 .label {
 	color: #0248c2;
 	position: relative;
-    margin-top: 15px;
-    font-size: 18px;
+  margin-top: 15px;
+  font-size: 18px;
+  margin-bottom: 0;
 }
 
 .input-field {
@@ -74,10 +75,11 @@
 
   .table {
     align-items: center;
-      width: 80%;
+    width: 80%;
     background-color: none;
     margin: 10%;
-    margin-top: 5%;
+    margin-top: 0;
+    margin-bottom: 0;
   }
   
   .table-header {

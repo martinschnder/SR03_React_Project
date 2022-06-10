@@ -97,7 +97,7 @@ function Form({ channel, titre, desc }) {
                             <h4>utilisateur</h4>
                         </div>
                         <div className="header__item">
-                            <h4>supprimer</h4>
+                            <h4>supprimer du chat</h4>
                         </div>
                     </div>
                     <div className="table-content">
@@ -127,7 +127,7 @@ function Form({ channel, titre, desc }) {
                         <h4>utilisateur</h4>
                     </div>
                     <div className="header__item">
-                        <h4>ajouter</h4>
+                        <h4>ajouter au chat</h4>
                     </div>
                 </div>
                 <div className="table-content">

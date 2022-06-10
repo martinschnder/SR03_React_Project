@@ -35,7 +35,6 @@ function Chat() {
 
                 stompClient.current.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {
                     let newMessage = JSON.parse(messageOutput.body);
-                    console.log(newMessage);
                     setMessages((oldMessages) => [...oldMessages, newMessage]);
                 });
             });
@@ -54,7 +53,6 @@ function Chat() {
     }, []);
 
     const generateColor = (name) => {
-        console.log(colors.get(name));
         if (colors.get(name) === undefined) {
             let newcolor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
             colors.set(name, newcolor);
