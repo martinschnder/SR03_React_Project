@@ -36,6 +36,25 @@
     color: whitesmoke;
 }
 
+.disco-button {
+    border: 0;
+    background-color: #0248c2;
+    color: whitesmoke;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 5%;
+    margin-left: 5%;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.disco-button:hover {
+    background-color: var(--secondary-color);
+    color: whitesmoke;
+}
+
 .send-button {
     border: 0;
     background-color: var(--primary-color);

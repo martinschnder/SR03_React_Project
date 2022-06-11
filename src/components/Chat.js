@@ -3,7 +3,7 @@ import { over } from 'stompjs'
 import SockJS from 'sockjs-client'
 import './styles/chat.css';
 import Header from './Header';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
 import APIService from '../utils/APIService';
 
@@ -17,7 +17,7 @@ function Chat() {
     const [prenom, setPrenom] = useState('');
     var colors = new Map();
 
-
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -73,7 +73,10 @@ function Chat() {
         document.getElementById('text').value = '';
     }
 
-
+    function handleDisconnect() {
+        stompClient.current.disconnect();
+        navigate('/mychannels');
+    }
 
     useEffect(() => {
         APIService.getUser(id).then((data) => {
@@ -136,6 +139,7 @@ function Chat() {
                 <button className="send-button" id="send-button" onClick={sendMessage}>Envoyer</button>
                 <button className="close-button" id="close-button">Fermer</button>
             </div>
+            <button className="disco-button" id="disco-button" onClick={handleDisconnect}>Deconnexion</button>
         </main >
     );
 }
