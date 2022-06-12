@@ -8,6 +8,10 @@ import addimage from './visuals/add.png';
 import addimage_white from './visuals/add_white.png';
 import { AuthContext } from "../utils/AuthContext";
 
+/* Formulaire pour l'ajout ou la modification d'un chat
+props : value = id du chat à modifier ou 0 si ajout d'un nouveau chat
+props : titre = titre du chat à modifier
+props : desc = descriptiond du chat à modifier */
 function Form({ channel, titre, desc }) {
     const [title, setTitle] = useState(titre);
     const [description, setDescription] = useState(desc);
@@ -18,12 +22,15 @@ function Form({ channel, titre, desc }) {
 
     const navigate = useNavigate();
 
+    /* Fonction de validation du formulaire */
     let handleSubmit = async (e) => {
         e.preventDefault();
         const object = {};
         if (channel) {
+            /* Modification d'un chat */
             Object.assign(object, { id: channel, title: title, description: description, ownerId: id });
         } else {
+            /* Ajout d'un nouveau chat */
             Object.assign(object, { title: title, description: description, ownerId: id });
         }
         try {
@@ -35,7 +42,7 @@ function Form({ channel, titre, desc }) {
                 body: JSON.stringify(object)
             });
             if (res.status === 200) {
-                navigate('/mychannels');
+                navigate('/mychannels'); // Requete accepté on navigue vers la page des channels de l'utilisateur
             } else {
                 console.log("Some error occured");
             }
@@ -44,6 +51,7 @@ function Form({ channel, titre, desc }) {
         }
     };
 
+    /* Suppression d'un invité du chat */
     let deleteGuest = async (channel, guest, i) => {
         const object = { user: guest, channel: channel };
         try {
@@ -65,6 +73,7 @@ function Form({ channel, titre, desc }) {
         }
     };
 
+    /* Ajout d'un invité au chat */
     let addGuest = async (channel, guest, i) => {
         const object = { user: guest, channel: channel };
         try {
@@ -86,6 +95,7 @@ function Form({ channel, titre, desc }) {
         }
     };
 
+    /* Composant des invités du chat */
     const allComponent = (
         <>
             <p className="label" > Invités</p >
@@ -118,6 +128,7 @@ function Form({ channel, titre, desc }) {
         </>
     )
 
+    /* Composant des utilisateurs pouvant être invités au chat */
     const noGuestComponent = (
         <>
             <p className="label">Utilisateurs</p>
@@ -147,7 +158,7 @@ function Form({ channel, titre, desc }) {
     )
 
     useEffect(() => {
-        if (channel) {
+        if (channel) { // modification d'un chat
             APIService.getNoneGuests(channel).then((data) => {
                 setNoguests(data);
             });

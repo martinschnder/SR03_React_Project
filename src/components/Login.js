@@ -4,6 +4,7 @@ import { sha512 } from 'crypto-hash';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../utils/AuthContext';
 
+/* Formulaire de connexion */
 export default function Login() {
     const [sign, setSign] = useContext(AuthContext);
     const [id, setId] = useContext(AuthContext);
@@ -14,7 +15,7 @@ export default function Login() {
 
     const handleSignIn = async (e) => {
         e.preventDefault();
-        let hash = await sha512(password);
+        let hash = await sha512(password); // hashage du mot de passe
         const object = {};
         Object.assign(object, { mail: mail, password: hash });
         try {
@@ -27,10 +28,12 @@ export default function Login() {
             });
             let resJson = await res.json();
             if (resJson.id) {
+                // L'utilisateur a les autorisations pour se connecter
                 setSign(true);
                 setId(resJson.id);
                 navigate('/');
             } else {
+                // L'utilisateur n'a pas les autorisations pour se connecter
                 document.getElementsByClassName('login-button')[0].style.border = "5px solid #e74c3c";
                 document.getElementsByClassName('form-control')[0].style.color = "#e74c3c";
                 document.getElementsByClassName('form-control')[1].style.color = "#e74c3c";
