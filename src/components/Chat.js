@@ -14,6 +14,7 @@ function Chat() {
     const [messages, setMessages] = useState([]);
     const [id] = useContext(AuthContext);
     const stompClient = useRef(null);
+    const [connected, setConnected] = useState(false);
     const [prenom, setPrenom] = useState('');
     var colors = new Map();
 
@@ -21,10 +22,14 @@ function Chat() {
 
     useEffect(() => {
 
-        if (stompClient.current != null) {
-            console.log("StompClient is not null");
-            return undefined;
-        }
+        // if (stompClient.current != null) {
+        //     console.log("StompClient is not null");
+        //     return undefined;
+        // }
+
+        // if (connected) {
+        //     return undefined;
+        // }
 
         function connect() {
             var socket = new SockJS('http://localhost:8080/chat');
@@ -32,7 +37,7 @@ function Chat() {
 
             stompClient.current.connect({}, function (frame) {
                 console.log('Connected: ' + frame);
-
+                setConnected(true);
                 stompClient.current.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {
                     let newMessage = JSON.parse(messageOutput.body);
                     setMessages((oldMessages) => [...oldMessages, newMessage]);
@@ -42,15 +47,16 @@ function Chat() {
 
         connect();
 
-        // return (() => {
-        //     if (stompClient.current != null) {
-        //         console.log("trying to disconnect")
-        //         stompClient.current.disconnect();
-        //     }
-        //     console.log("Disconnected");
-        // })
+        return (() => {
+            if (connected) {
+                setConnected(false);
+                console.log("trying to disconnect")
+                stompClient.current.disconnect();
+            }
+            console.log("Disconnected");
+        })
 
-    }, []);
+    });
 
     const generateColor = (name) => {
         if (colors.get(name) === undefined) {
@@ -67,11 +73,16 @@ function Chat() {
         var from = prenom;
         var text = document.getElementById('text').value;
 
-        stompClient.current.send(`/app/chat/${location.state.channel}`, {},
-            JSON.stringify({ 'from': from, 'text': text }));
-
-        document.getElementById('text').value = '';
+        if (text !== '') {
+            stompClient.current.send(`/app/chat/${location.state.channel}`, {},
+                JSON.stringify({ 'from': from, 'text': text }));
+            document.getElementById('text').value = '';
+        }
     }
+
+    // function disconnect() {
+    //     stompClient.current.disconnect();
+    // }
 
 
 
@@ -136,6 +147,7 @@ function Chat() {
                 <button className="send-button" id="send-button" onClick={sendMessage}>Envoyer</button>
                 <button className="close-button" id="close-button">Fermer</button>
             </div>
+            {/* <button className="disconnect-button" id="send-button" onClick={disconnect}>Déconnexion</button> */}
         </main >
     );
 }
