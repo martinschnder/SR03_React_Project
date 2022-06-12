@@ -46,16 +46,6 @@ function Chat() {
         }
 
         connect();
-
-        return (() => {
-            if (connected) {
-                setConnected(false);
-                console.log("trying to disconnect")
-                stompClient.current.disconnect();
-            }
-            console.log("Disconnected");
-        })
-
     });
 
     const generateColor = (name) => {
