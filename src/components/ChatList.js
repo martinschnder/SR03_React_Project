@@ -11,11 +11,16 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
 import { queryAllByAltText } from "@testing-library/react";
 
+/* Liste des chats 
+props : mychannel = true si on souhaite afficher les chats où l'utilisateur est propriétaire
+                  = false si on souhaite afficher en plus les chats où il est invité */
 function Chatlist({ mychannel }) {
     const [allchannels, setAllchannels] = useState([]);
     const [id] = useContext(AuthContext);
     const [query, setQuery] = useState('');
 
+    /* Si ce sont les chats où l'utilisateur est propriétaire,
+    suppression d'un chat */
     let deleteChannel = async (id) => {
         const object = { id: id };
         try {
@@ -37,6 +42,7 @@ function Chatlist({ mychannel }) {
         }
     };
 
+    /* Composant liste des chats */
     const channels =
         mychannel ?
             allchannels.filter(channel => {
@@ -86,6 +92,7 @@ function Chatlist({ mychannel }) {
             });
 
     useEffect(() => {
+        /* On récupère selon la valeur de mychannel les chats où l'utilisateur est propriétaire ou tous les chats (invité ou propriétaire) */
         let fct = mychannel ?
             APIService.getMyChannels(id) : APIService.getAllChannels(id);
         fct

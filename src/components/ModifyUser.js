@@ -6,6 +6,7 @@ import APIService from "../utils/APIService";
 import Header from "./Header";
 import { AuthContext } from "../utils/AuthContext";
 
+/* Formulaire de modification de l'utilisateur connecté */
 function ModifyUser() {
     const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ function ModifyUser() {
 
     let handleSubmit = async (e) => {
         e.preventDefault();
-        let hash = await sha512(previouspassword);
+        let hash = await sha512(previouspassword); // hashage du mot de passe
         if (realpassword !== hash) {
             setAlertmessage("L'ancien mot de passe n'est pas le bon.");
             return
@@ -30,21 +31,21 @@ function ModifyUser() {
             setAlertmessage("Les deux nouveaux mots de passe ne correspondent pas.");
             return
         }
-        var mailformat = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        var mailformat = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; // format regex d'un mail
         if (!email.match(mailformat)) {
             setAlertmessage("Email non valide.");
             return;
         }
         const object = {};
-        if (newpassword == null) {
+        if (newpassword == null) { // l'utilisateur ne souhaite pas modifier son mot de passe
             Object.assign(object, { id: id, firstName: prenom, lastName: nom, mail: email, password: realpassword });
-        } else {
-            var passwordformat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+        } else { // l'utilisateur souhaite modifier son mot de passe
+            var passwordformat = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/; // format regex du mot de passe
             if (!newpassword.match(passwordformat)) {
                 setAlertmessage("Le mot de passe doit contenir un chiffre, une minuscule, une majuscule et au moins 8 caractères");
                 return;
             }
-            let hashNew = await sha512(newpassword);
+            let hashNew = await sha512(newpassword); // hashage du nouveau mot de passe
             Object.assign(object, { id: id, firstName: prenom, lastName: nom, mail: email, password: hashNew });
         }
         try {
