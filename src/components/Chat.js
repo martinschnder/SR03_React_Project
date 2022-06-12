@@ -14,7 +14,6 @@ function Chat() {
     const [messages, setMessages] = useState([]);
     const [id] = useContext(AuthContext);
     const stompClient = useRef(null);
-    const [connected, setConnected] = useState(false);
     const [prenom, setPrenom] = useState('');
     var colors = new Map();
 
@@ -22,14 +21,10 @@ function Chat() {
 
     useEffect(() => {
 
-        // if (stompClient.current != null) {
-        //     console.log("StompClient is not null");
-        //     return undefined;
-        // }
-
-        // if (connected) {
-        //     return undefined;
-        // }
+        if (stompClient.current != null) {
+            console.log("StompClient is not null");
+            return undefined;
+        }
 
         function connect() {
             var socket = new SockJS('http://localhost:8080/chat');
@@ -37,7 +32,6 @@ function Chat() {
 
             stompClient.current.connect({}, function (frame) {
                 console.log('Connected: ' + frame);
-                setConnected(true);
                 stompClient.current.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {
                     let newMessage = JSON.parse(messageOutput.body);
                     setMessages((oldMessages) => [...oldMessages, newMessage]);
@@ -72,7 +66,7 @@ function Chat() {
 
     function handleDisconnect() {
         stompClient.current.disconnect();
-        navigate('/mychannels');
+        navigate('/');
     }
 
     useEffect(() => {
