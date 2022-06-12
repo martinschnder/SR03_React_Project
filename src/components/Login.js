@@ -57,10 +57,10 @@ export default function Login() {
                     <div className="main-login-form">
                         <div className="login-group">
                             <div className="form-group">
-                                <input value={mail} onChange={(e) => setMail(e.target.value)} type="text" className="form-control" id="lg_username" name="lg_username" placeholder="username" />
+                                <input value={mail} onChange={(e) => setMail(e.target.value)} type="text" className="form-control" id="lg_username" name="lg_username" placeholder="mail" />
                             </div>
                             <div className="form-group">
-                                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="lg_password" name="lg_password" placeholder="password" />
+                                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="lg_password" name="lg_password" placeholder="mot de passe" />
                             </div>
                         </div>
                         <button type="submit" className="login-button"><i className="chevron">&gt;</i></button>
