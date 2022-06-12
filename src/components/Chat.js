@@ -64,7 +64,7 @@ function Chat() {
     }
 
     function handleDisconnect() {
-        stompClient.current.disconnect(); // deconexion de la socket après appui sur le bouton
+        stompClient.current.disconnect(); // deconnexion de la socket après appui sur le bouton
         navigate('/mychannels');
     }
 

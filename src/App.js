@@ -12,7 +12,7 @@ import Login from './components/Login';
 import Navbar from './components/NavBar'
 
 function App() {
-    const [sign, setSign] = useState(false); // booléen "est ce l'utilisateur est connecté ?"
+    const [sign, setSign] = useState(false); // booléen "est ce que l'utilisateur est connecté ?"
     const [id, setId] = useState(0); // id de l'utilisateur connecté
 
     useEffect(() => {
@@ -25,7 +25,7 @@ function App() {
 
 
     return (
-        <AuthContext.Provider value={[sign, setSign, id, setId]}> {/*context partagé par tous les composants enfants*/}
+        <AuthContext.Provider value={[sign, setSign, id, setId]}> {/*contexte partagé par tous les composants enfants*/}
             <BrowserRouter>
                 <div className="flex-container">
                     {sign ? <Navbar /> : null}
