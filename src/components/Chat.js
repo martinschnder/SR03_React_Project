@@ -11,10 +11,9 @@ import APIService from '../utils/APIService';
 function Chat() {
 
     const location = useLocation();
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([]); // tableau vide qui servira à stocker les messages entrants
     const [id] = useContext(AuthContext);
     const stompClient = useRef(null);
-    const [connected, setConnected] = useState(false);
     const [prenom, setPrenom] = useState('');
     var colors = new Map();
 
@@ -22,24 +21,18 @@ function Chat() {
 
     useEffect(() => {
 
-        // if (stompClient.current != null) {
-        //     console.log("StompClient is not null");
-        //     return undefined;
-        // }
-
-        // if (connected) {
-        //     return undefined;
-        // }
+        if (stompClient.current != null) {  // permet de ne pas créer de socket en double
+            return undefined;
+        }
 
         function connect() {
             var socket = new SockJS('http://localhost:8080/chat');
             stompClient.current = over(socket);
 
-            stompClient.current.connect({}, function (frame) {
+            stompClient.current.connect({}, function (frame) { // connexion WebSocket
                 console.log('Connected: ' + frame);
-                setConnected(true);
-                stompClient.current.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {
-                    let newMessage = JSON.parse(messageOutput.body);
+                stompClient.current.subscribe(`/topic/messages/${location.state.channel}`, function (messageOutput) {  // on intègre l'id du chat dans la méthode subscribe pour recevoir uniquement les messages voulus
+                    let newMessage = JSON.parse(messageOutput.body); // on défini le traitement des messages entrants
                     setMessages((oldMessages) => [...oldMessages, newMessage]);
                 });
             });
@@ -48,7 +41,7 @@ function Chat() {
         connect();
     });
 
-    const generateColor = (name) => {
+    const generateColor = (name) => { // génération de couleurs aléatoire pour chaque user connecté
         if (colors.get(name) === undefined) {
             let newcolor = Math.floor(Math.random() * 0xFFFFFF).toString(16);
             colors.set(name, newcolor);
@@ -64,23 +57,23 @@ function Chat() {
         var text = document.getElementById('text').value;
 
         if (text !== '') {
-            stompClient.current.send(`/app/chat/${location.state.channel}`, {},
+            stompClient.current.send(`/app/chat/${location.state.channel}`, {}, // on s'assure d'envoyer les messages à la destination à laquelle le composant est abonné
                 JSON.stringify({ 'from': from, 'text': text }));
-            document.getElementById('text').value = '';
+            document.getElementById('text').value = ''; // on reset l'input des messages
         }
     }
 
     function handleDisconnect() {
-        stompClient.current.disconnect();
+        stompClient.current.disconnect(); // deconexion de la socket après appui sur le bouton
         navigate('/mychannels');
     }
 
     useEffect(() => {
-        APIService.getUser(id).then((data) => {
+        APIService.getUser(id).then((data) => { // on récupère de prénom de l'utilisateur grâce à son id
             setPrenom(data.firstName);
         });
 
-        const writeButton = document.getElementById('write-button');
+        const writeButton = document.getElementById('write-button'); // gestion des boutons écrire et fermer (TD03)
         writeButton.addEventListener('click', function (event) {
             const textInput = document.getElementById("text");
             const buttonDiv = document.getElementsByClassName("button-container")[0];
@@ -105,9 +98,9 @@ function Chat() {
             <Header title={"Salon du chat : " + location.state.title} smalltitle={"Description : " + location.state.smalltitle} />
             <div id="messages-container" className="messages-container">
                 <ul className="chat" id="chatList">
-                    {messages.map((data, i) => (
+                    {messages.map((data, i) => ( // on boucle sur les messages contenus dans le tableau des messages recus
                         <div key={i}>
-                            {prenom === data.from ? (
+                            {prenom === data.from ? ( // si le message provient de l'utilisateur connecté
                                 <li className="self">
                                     <div className="msg">
                                         <p>{data.from}</p>
@@ -115,7 +108,7 @@ function Chat() {
                                         <div className="time">{data.time}</div>
                                     </div>
                                 </li>
-                            ) : (
+                            ) : ( // si le message provient d'un autre utilisateur 
                                 <li className="other">
                                     <div className="msg">
                                         <p style={{ color: "#" + generateColor(data.from) }}>{data.from}</p>

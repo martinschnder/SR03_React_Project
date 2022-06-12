@@ -15,14 +15,14 @@ function Navbar() {
     const [sign, setSign] = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const disconnect = () => {
+    const disconnect = () => { // déconncter l'user courant
         setSign(false);
         setId(0);
         navigate('/login');
     };
 
     useEffect(() => {
-        APIService.getUser(id).then((data) => {
+        APIService.getUser(id).then((data) => { // on récupère les informations de l'utilisateur connecté
             setEmail(data.mail);
             setPrenom(data.firstName);
             setNom(data.lastName);
