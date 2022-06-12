@@ -132,18 +132,14 @@ function Form({ channel, titre, desc }) {
                 </div>
                 <div className="table-content">
                     {noguests.map((guest, i) => {
-                        if (guest.id === id) {
-                            delete noguests[i];
-                        } else {
-                            return (
-                                <div key={i} className="table-row">
-                                    <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
-                                    <div className="table-data">
-                                        <img alt="" width="20" height="20" onClick={() => addGuest(channel, guest.id, i)} src={i % 2 === 0 ? addimage : addimage_white} />
-                                    </div>
+                        return (
+                            <div key={i} className="table-row">
+                                <div className="table-data">{guest.firstName + ' ' + guest.lastName}</div>
+                                <div className="table-data">
+                                    <img alt="" width="20" height="20" onClick={() => addGuest(channel, guest.id, i)} src={i % 2 === 0 ? addimage_white : addimage} />
                                 </div>
-                            )
-                        }
+                            </div>
+                        )
                     })}
                 </div>
             </div>
